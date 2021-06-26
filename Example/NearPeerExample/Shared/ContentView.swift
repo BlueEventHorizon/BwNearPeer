@@ -18,23 +18,60 @@ struct ContentView: View {
         NavigationView {
             VStack(alignment: .leading, spacing: 25) {
                 
-                HStack {
-                    Image(systemName: "text.bubble")
+                VStack(alignment: .leading, spacing: 10) {
+                    
+                    HStack {
+                        Image(systemName: "text.bubble")
+                            .foregroundColor(.blue)
+                        Text("受信")
+                            .bold()
+                    }
+                    
+                    Text("送信元: \(nearPeerWorker.peerName)")
+                        .foregroundColor(.gray)
+                        .bold()
+                        .font(.footnote)
+                    
+                    if nearPeerWorker.peerName.isEmpty {
+                        Text("受信時刻: ")
+                            .foregroundColor(.gray)
+                            .bold()
+                            .font(.footnote)
+                    } else {
+                        Text("受信時刻: \(Date())")
+                            .foregroundColor(.gray)
+                            .bold()
+                            .font(.footnote)
+                    }
+
+                    Text("受信メッセージ: \(nearPeerWorker.recievedText)")
                         .foregroundColor(.blue)
-                    Text(nearPeerWorker.recievedText)
-                        .foregroundColor(.blue)
+                        .font(.body)
                         .lineLimit(nil)
                 }
                 
-                HStack {
-
-                    TextEditor(text: $sendText)
-                        .frame(height: 100)
-                        .lineLimit(nil)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 12)
-                                .stroke(Color.gray, lineWidth: 1)
-                        )
+                Rectangle()
+                    .fill(Color(UIColor.systemGray3))
+                    .frame(height: 1.1)
+                
+                VStack(alignment: .leading, spacing: 10) {
+                    
+                    HStack {
+                        Image(systemName: "text.bubble")
+                            .foregroundColor(.blue)
+                        Text("送信")
+                            .bold()
+                    }
+                    
+                    HStack {
+                        TextEditor(text: $sendText)
+                            .frame(height: 100)
+                            .lineLimit(nil)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(Color.gray, lineWidth: 1)
+                            )
+                    }
                 }
 
                 HStack() {
