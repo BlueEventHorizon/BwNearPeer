@@ -38,6 +38,8 @@ class PearAdvertiser: NSObject, MCNearbyServiceAdvertiserDelegate {
 
         advertiser?.delegate = nil
         advertiser?.stopAdvertisingPeer()
+        
+        isAdvertising = false
     }
 
     func restart() {
@@ -45,8 +47,8 @@ class PearAdvertiser: NSObject, MCNearbyServiceAdvertiserDelegate {
             stop()
         }
 
-        advertiser?.startAdvertisingPeer()
         advertiser?.delegate = self
+        advertiser?.startAdvertisingPeer()
     }
 
     // ------------------------------------------------------------------------------------------

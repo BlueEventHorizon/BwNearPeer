@@ -25,13 +25,17 @@ class NearPeerWorker: ObservableObject {
                 return
             }
             
-            
+            if let decodedText = try? JSONDecoder().decode(String.self, from: data) {
+                self.recievedText = decodedText
+            }
         }
     }
 
     func send(text: String)  {
         log.entered(self)
 
-        
+        let data: Data = try! JSONEncoder().encode(text)
+
+        nearPeer.sendData(data)
     }
 }
