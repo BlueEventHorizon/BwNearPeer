@@ -10,12 +10,15 @@ import MultipeerConnectivity
 
 class PearBrowser: NSObject, MCNearbyServiceBrowserDelegate {
     private let session: MCSession
+    private let maxNumPeers: Int
+    private var browser: MCNearbyServiceBrowser?
 
-    init(session: MCSession) {
+    init(session: MCSession, maxPeers: Int) {
         self.session = session
+        self.maxNumPeers = maxPeers
+
         super.init()
     }
-    private var browser: MCNearbyServiceBrowser?
 
     func startBrowsing(serviceType: String) {
         browser = MCNearbyServiceBrowser(peer: session.myPeerID, serviceType: serviceType)

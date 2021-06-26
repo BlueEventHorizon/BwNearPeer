@@ -13,6 +13,8 @@ public class NearPeer: PearConnectionDependency {
     public typealias ConnectionHandler = ((_ peerID: MCPeerID) -> Void)
     public typealias DataRecieveHandler = ((_ peerID: MCPeerID, _ data: Data?) -> Void)
 
+    private let maxNumPeers: Int
+    
     private var onConnecting: ConnectionHandler?
     private var onConnect: ConnectionHandler?
     private var onDisconnect: ConnectionHandler?
@@ -26,16 +28,49 @@ public class NearPeer: PearConnectionDependency {
     // MARK: - public
     // ------------------------------------------------------------------------------------------
 
-    public init() {}
+    public init(maxPeers: Int) {
+        maxNumPeers = maxPeers
+    }
 
-    public func start(serviceType: String, displayName: String, discoveryInfo: [String: String]? = nil) {
+    /// Start peer communication
+    /// - Parameters:
+    ///   - serviceType: Must be 1–15 characters long,
+    ///                  Can contain only ASCII lowercase letters,
+    ///                  numbers, and hyphens, Must contain at least one ASCII letter,
+    ///                  Must not begin or end with a hyphen,
+    ///                  Must not contain hyphens adjacent to other hyphens.
+    ///   - displayName: The display name for the local peer
+    ///                  The maximum allowable length is 63 bytes in UTF-8 encoding
+    ///   - discoveryInfo: The discoveryInfo parameter is a dictionary of string key/value pairs that will be advertised for browsers to see.
+    ///                  The content of discoveryInfo will be advertised within Bonjour TXT records, so you should keep the dictionary small for better discovery performance.
+    public func start(serviceName: String, displayName: String, discoveryInfo: [String: String]? = nil) {
+
+        let serviceTypeName = validate(serviceName: serviceName)
 
         connection = PearConnection(displayName: displayName, dependency: self)
         advertiser = PearAdvertiser(session: connection.session)
-        browser = PearBrowser(session: connection.session)
+        browser = PearBrowser(session: connection.session, maxPeers: maxNumPeers)
 
-        advertiser.start(serviceType: serviceType, discoveryInfo: discoveryInfo)
-        browser.startBrowsing(serviceType: serviceType)
+        advertiser.start(serviceType: serviceTypeName, discoveryInfo: discoveryInfo)
+        browser.startBrowsing(serviceType: serviceTypeName)
+    }
+
+    /// validate
+    /// - Parameter service: Must be 1–15 characters long,
+    ///                  Can contain only ASCII lowercase letters,
+    ///                  numbers, and hyphens, Must contain at least one ASCII letter,
+    ///                  Must not begin or end with a hyphen,
+    /// - Returns: validated service name
+    private func validate(serviceName: String) -> String {
+        if serviceName.isEmpty {
+            
+        }
+        
+        if serviceName.count > 15 {
+            
+        }
+        
+        return serviceName
     }
 
     public func stop() {
