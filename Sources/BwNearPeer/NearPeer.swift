@@ -34,13 +34,8 @@ public class NearPeer: PearConnectionDependency {
 
     /// Start peer communication
     /// - Parameters:
-    ///   - serviceType: Must be 1–15 characters long,
-    ///                  Can contain only ASCII lowercase letters,
-    ///                  numbers, and hyphens, Must contain at least one ASCII letter,
-    ///                  Must not begin or end with a hyphen,
-    ///                  Must not contain hyphens adjacent to other hyphens.
+    ///   - serviceName: サービス名
     ///   - displayName: The display name for the local peer
-    ///                  The maximum allowable length is 63 bytes in UTF-8 encoding
     ///   - discoveryInfo: The discoveryInfo parameter is a dictionary of string key/value pairs that will be advertised for browsers to see.
     ///                  The content of discoveryInfo will be advertised within Bonjour TXT records, so you should keep the dictionary small for better discovery performance.
     public func start(serviceName: String, displayName: String, discoveryInfo: [String: String]? = nil) {
@@ -62,15 +57,20 @@ public class NearPeer: PearConnectionDependency {
     ///                  Must not begin or end with a hyphen,
     /// - Returns: validated service name
     private func validate(serviceName: String) -> String {
-        if serviceName.isEmpty {
-            
+        guard serviceName.count > 0 else {
+            return "."
         }
-        
-        if serviceName.count > 15 {
-            
-        }
-        
-        return serviceName
+
+        // Must be 1–15 characters long の他は未実装
+
+        return String(serviceName.prefix(15))
+    }
+    
+    /// 表示名
+    /// - Parameter displayName: The maximum allowable length is 63 bytes in UTF-8 encoding
+    /// - Returns: validated displayName
+    private func validate(displayName: String) -> String {
+        return String(displayName.prefix(63))
     }
 
     public func stop() {

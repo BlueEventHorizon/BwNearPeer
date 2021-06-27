@@ -16,14 +16,14 @@ class NearPeerWorker: ObservableObject {
 
     @Published var peerName: String = ""
     @Published var recievedText: String = "まだ受信していませんまだ受信していませんまだ受信していませんまだ受信していませんまだ受信していませんまだ受信していません"
-    
-    
+
     init() {
         nearPeer = NearPeer(maxPeers: 1)
 
         nearPeer.start(serviceName: "nearpeer", displayName: UIDevice.current.name, discoveryInfo: nil)
         nearPeer.onRecieved { peer, data in
             guard let data = data else {
+                log.error("データがありません")
                 return
             }
             
@@ -31,6 +31,8 @@ class NearPeerWorker: ObservableObject {
             
             if let decodedText = try? JSONDecoder().decode(String.self, from: data) {
                 self.recievedText = decodedText
+            } else {
+                log.error("decode失敗")
             }
         }
     }
@@ -38,8 +40,10 @@ class NearPeerWorker: ObservableObject {
     func send(text: String)  {
         log.entered(self)
 
-        let data: Data = try! JSONEncoder().encode(text)
-
-        nearPeer.sendData(data)
+        if let encodedData: Data = try? JSONEncoder().encode(text) {
+            nearPeer.sendData(encodedData)
+        } else {
+            log.error("encode失敗")
+        }
     }
 }
