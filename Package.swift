@@ -15,7 +15,8 @@ let package = Package(
             targets: ["BwNearPeer"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/BlueEventHorizon/BwLogger.git", from: "4.0.12"),
+        //.package(url: "https://github.com/BlueEventHorizon/BwLogger.git", from: "4.0.12"),
+        .package(url: "https://github.com/BlueEventHorizon/BwLogger.git", .branch("main")),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
