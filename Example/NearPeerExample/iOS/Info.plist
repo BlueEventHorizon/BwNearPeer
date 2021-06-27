@@ -7,7 +7,7 @@
 		<string>_nearpeer._tcp</string>
 		<string>_nearpeer._udp</string>
 	</array>
-	<key>NSLocalNetworkUsageDescriptionNSLocalNetworkUsageDescription</key>
+	<key>NSLocalNetworkUsageDescription</key>
 	<string>BwNearPeerのサンプルアプリを動作させます</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
