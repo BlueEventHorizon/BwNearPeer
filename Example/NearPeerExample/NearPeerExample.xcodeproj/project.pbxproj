@@ -177,6 +177,7 @@
 				528BEB0E26872321008DB3C2 /* Sources */,
 				528BEB0F26872321008DB3C2 /* Frameworks */,
 				528BEB1026872321008DB3C2 /* Resources */,
+				52B7F01C268F794C0063DCF7 /* Run Swiftformat Script */,
 			);
 			buildRules = (
 			);
@@ -324,6 +325,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		52B7F01C268F794C0063DCF7 /* Run Swiftformat Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Swiftformat Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftformat >/dev/null; then\n    swiftformat --exclude Carthage,Pods --stripunusedargs closure-only --extensionacl on-declarations --indentcase true --disable redundanttype,redundantRawValues,redundantSelf,trailingCommas,wrapMultilineStatementBraces ${SRCROOT}\nelse\n    echo \"⚠️warning: swiftformat not installed\"\nfi\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		528BEB0E26872321008DB3C2 /* Sources */ = {

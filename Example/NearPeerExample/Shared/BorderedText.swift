@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct BorderedText: View {
-    
     @State var text: String
     @State var selected: Bool = true
 
@@ -20,16 +19,16 @@ struct BorderedText: View {
     var body: some View {
         let bgColor: Color = selected ? .blue : .secondary
         let fgColor: Color = selected ? .white : .white
-            
+
         Text(text)
             .multilineTextAlignment(.center)
             .lineLimit(lineLimit)
             .font(.system(size: 18.0, weight: weight))
             .padding(10)
-            //.padding(.vertical, 10)
-            //.padding(.horizontal, 10)
-            //.lineSpacing(10.0)
-            //.frame(height: height)
+            // .padding(.vertical, 10)
+            // .padding(.horizontal, 10)
+            // .lineSpacing(10.0)
+            // .frame(height: height)
             .background(bgColor)
             .foregroundColor(fgColor)
             .cornerRadius(cornerRadius)

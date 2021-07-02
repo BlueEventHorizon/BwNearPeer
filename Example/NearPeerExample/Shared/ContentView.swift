@@ -8,30 +8,26 @@
 import SwiftUI
 
 struct ContentView: View {
-    
     @StateObject var nearPeerWorker: NearPeerWorker = NearPeerWorker()
 
     @State var sendText: String = "このテキストを送信することができます"
-    
+
     var body: some View {
-        
         NavigationView {
             VStack(alignment: .leading, spacing: 25) {
-                
                 VStack(alignment: .leading, spacing: 10) {
-                    
                     HStack {
                         Image(systemName: "text.bubble")
                             .foregroundColor(.blue)
                         Text("受信")
                             .bold()
                     }
-                    
+
                     Text("送信元: \(nearPeerWorker.peerName)")
                         .foregroundColor(.gray)
                         .bold()
                         .font(.footnote)
-                    
+
                     if nearPeerWorker.peerName.isEmpty {
                         Text("受信時刻: ")
                             .foregroundColor(.gray)
@@ -49,20 +45,19 @@ struct ContentView: View {
                         .font(.body)
                         .lineLimit(nil)
                 }
-                
+
                 Rectangle()
                     .fill(Color(UIColor.systemGray3))
                     .frame(height: 1.1)
-                
+
                 VStack(alignment: .leading, spacing: 10) {
-                    
                     HStack {
                         Image(systemName: "text.bubble")
                             .foregroundColor(.blue)
                         Text("送信")
                             .bold()
                     }
-                    
+
                     HStack {
                         TextEditor(text: $sendText)
                             .frame(height: 100)
@@ -74,7 +69,7 @@ struct ContentView: View {
                     }
                 }
 
-                HStack() {
+                HStack {
                     Spacer()
                     Button {
                         nearPeerWorker.send(text: sendText)

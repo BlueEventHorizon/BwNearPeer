@@ -68,24 +68,24 @@ class PearConnection: NSObject, MCSessionDelegate {
     // Called when the state of a nearby peer changes. Required.
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         switch state {
-        case .connecting:
-            dependency.connecting(with: peerID)
-            
-        case .connected:
-            dependency.didConnect(with: peerID)
-            
-            if self.state != .connected {
-                //called n times when MCSession has n connected peers
-                dependency.stopAdvertising()
-            }
-            
-        case .notConnected:
-            dependency.didDisconnect(with: peerID)
-            
-            if self.state == .connected {
-                // restart when something wrong
-                dependency.restartAdvertising()
-            }
+            case .connecting:
+                dependency.connecting(with: peerID)
+                
+            case .connected:
+                dependency.didConnect(with: peerID)
+                
+                if self.state != .connected {
+                    //called n times when MCSession has n connected peers
+                    dependency.stopAdvertising()
+                }
+                
+            case .notConnected:
+                dependency.didDisconnect(with: peerID)
+                
+                if self.state == .connected {
+                    // restart when something wrong
+                    dependency.restartAdvertising()
+                }
         }
         self.state = state
     }

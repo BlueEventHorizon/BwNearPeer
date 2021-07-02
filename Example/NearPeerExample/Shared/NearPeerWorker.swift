@@ -5,13 +5,12 @@
 //  Created by Katsuhiko Terada on 2021/06/26.
 //
 
-import Foundation
-import Combine
 import BwNearPeer
+import Combine
+import Foundation
 import UIKit.UIDevice
 
 class NearPeerWorker: ObservableObject {
-    
     let nearPeer: NearPeer
 
     @Published var peerName: String = ""
@@ -26,9 +25,9 @@ class NearPeerWorker: ObservableObject {
                 log.error("データがありません")
                 return
             }
-            
+
             self.peerName = peer.displayName
-            
+
             if let decodedText = try? JSONDecoder().decode(String.self, from: data) {
                 self.recievedText = decodedText
             } else {
@@ -37,7 +36,7 @@ class NearPeerWorker: ObservableObject {
         }
     }
 
-    func send(text: String)  {
+    func send(text: String) {
         log.entered(self)
 
         if let encodedData: Data = try? JSONEncoder().encode(text) {
