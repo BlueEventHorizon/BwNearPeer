@@ -137,6 +137,8 @@ public class NearPeer: PeerConnectionDependency {
     // ------------------------------------------------------------------------------------------
 
     func connecting(with peer: MCPeerID) {
+        log.entered(self)
+        
         if let connectingHandler = connectingHandler {
             DispatchQueue.main.async {
                 connectingHandler(peer)
@@ -145,6 +147,8 @@ public class NearPeer: PeerConnectionDependency {
     }
 
     func connected(with peer: MCPeerID) {
+        log.entered(self)
+        
         if let connectedHandler = connectedHandler {
             DispatchQueue.main.async {
                 connectedHandler(peer)
@@ -153,6 +157,8 @@ public class NearPeer: PeerConnectionDependency {
     }
 
     func disconnected(with peer: MCPeerID) {
+        log.entered(self)
+        
         if let disconnectedHandler = disconnectedHandler {
             DispatchQueue.main.async {
                 disconnectedHandler(peer)
@@ -161,6 +167,8 @@ public class NearPeer: PeerConnectionDependency {
     }
 
     func received(_ data: Data, from peer: MCPeerID) {
+        log.entered(self)
+
         if let recievedHandler = recievedHandler {
             DispatchQueue.main.async {
                 recievedHandler(peer, data)

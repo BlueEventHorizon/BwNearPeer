@@ -73,13 +73,14 @@ class PeerConnection: NSObject, MCSessionDelegate {
 
     // Called when the state of a nearby peer changes. Required.
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
-        log.entered(self)
+        log.entered(self, message: "state = \(state.rawValue)")
 
         switch state {
             case .connecting:
                 dependency.connecting(with: peerID)
 
             case .connected:
+                // called after certificated
                 dependency.connected(with: peerID)
 
                 if self.state != .connected {
