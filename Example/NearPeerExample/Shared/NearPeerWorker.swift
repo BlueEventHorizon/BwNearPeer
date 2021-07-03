@@ -12,9 +12,10 @@ import UIKit.UIDevice
 
 class NearPeerWorker: ObservableObject {
     let nearPeer: NearPeer
+    var counter: Int = 0
 
     @Published var peerName: String = ""
-    @Published var recievedText: String = "まだ受信していませんまだ受信していませんまだ受信していませんまだ受信していませんまだ受信していませんまだ受信していません"
+    @Published var recievedText: String = "まだ受信していません"
 
     init() {
         nearPeer = NearPeer(maxPeers: 1)
@@ -39,8 +40,9 @@ class NearPeerWorker: ObservableObject {
     func send(text: String) {
         log.entered(self)
 
-        if let encodedData: Data = try? JSONEncoder().encode(text) {
+        if let encodedData: Data = try? JSONEncoder().encode("\(counter)回目 \(text)") {
             nearPeer.send(encodedData)
+            counter += 1
         } else {
             log.error("encode失敗")
         }

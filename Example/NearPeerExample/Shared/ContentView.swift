@@ -9,8 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var nearPeerWorker: NearPeerWorker = NearPeerWorker()
-
-    @State var sendText: String = "このテキストを送信することができます"
+    @State var sendText: String = "（このテキストを送信することができます）"
 
     var body: some View {
         NavigationView {
@@ -40,10 +39,15 @@ struct ContentView: View {
                             .font(.footnote)
                     }
 
-                    Text("受信メッセージ: \(nearPeerWorker.recievedText)")
+                    Text("受信メッセージ:")
+                        .foregroundColor(.gray)
+                        .bold()
+                        .font(.footnote)
+
+                    Text(nearPeerWorker.recievedText)
                         .foregroundColor(.blue)
                         .font(.body)
-                        .lineLimit(nil)
+                        .lineLimit(10)
                 }
 
                 Rectangle()
