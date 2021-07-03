@@ -20,13 +20,21 @@ class PeerAdvertiser: NSObject, MCNearbyServiceAdvertiserDelegate {
 
     private var advertiser: MCNearbyServiceAdvertiser?
 
-    func start(serviceType: String, discoveryInfo: [String: String]? = nil) {
+    func start(serviceType: String, discoveryInfo: [NearPeerDiscoveryInfoKey: String]? = nil) {
         guard !isAdvertising else {
             return
         }
 
         isAdvertising = true
-        advertiser = MCNearbyServiceAdvertiser(peer: session.myPeerID, discoveryInfo: discoveryInfo, serviceType: serviceType)
+        var infoArray: [String: String]? = nil
+        if let infos = discoveryInfo {
+            infoArray = [String: String]()
+            infos.forEach { key, value in
+                infoArray?[key.rawValue] = value
+            }
+        }
+
+        advertiser = MCNearbyServiceAdvertiser(peer: session.myPeerID, discoveryInfo: infoArray, serviceType: serviceType)
         advertiser?.delegate = self
         advertiser?.startAdvertisingPeer()
     }

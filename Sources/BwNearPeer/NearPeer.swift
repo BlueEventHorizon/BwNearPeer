@@ -8,6 +8,11 @@
 
 import MultipeerConnectivity
 
+public enum NearPeerDiscoveryInfoKey: String {
+    case identifier
+    case passcode
+}
+
 public class NearPeer: PeerConnectionDependency {
     public typealias ConnectionHandler = ((_ peerID: MCPeerID) -> Void)
     public typealias DataRecieveHandler = ((_ peerID: MCPeerID, _ data: Data?) -> Void)
@@ -37,7 +42,7 @@ public class NearPeer: PeerConnectionDependency {
     ///   - displayName: The display name for the local peer
     ///   - discoveryInfo: The discoveryInfo parameter is a dictionary of string key/value pairs that will be advertised for browsers to see.
     ///                  The content of discoveryInfo will be advertised within Bonjour TXT records, so you should keep the dictionary small for better discovery performance.
-    public func start(serviceName: String, displayName: String, discoveryInfo: [String: String]? = nil) {
+    public func start(serviceName: String, displayName: String, discoveryInfo: [NearPeerDiscoveryInfoKey: String]? = nil) {
         let validatedServiceName = validate(serviceName: serviceName)
         let validatedDisplayName = validate(displayName: displayName)
 
@@ -46,7 +51,7 @@ public class NearPeer: PeerConnectionDependency {
         browser = PeerBrowser(session: connection.session, maxPeers: maxNumPeers)
 
         advertiser.start(serviceType: validatedServiceName, discoveryInfo: discoveryInfo)
-        browser.start(serviceType: validatedServiceName)
+        browser.start(serviceType: validatedServiceName, discoveryInfo: discoveryInfo)
     }
 
     /// validate

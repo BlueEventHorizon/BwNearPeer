@@ -2,13 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSBonjourServices</key>
-	<array>
-		<string>_nearpeer._tcp</string>
-		<string>_nearpeer._udp</string>
-	</array>
-	<key>NSLocalNetworkUsageDescription</key>
-	<string>BwNearPeerのサンプルアプリを動作させます</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -27,6 +20,13 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_nearpeer._tcp</string>
+		<string>_nearpeer._udp</string>
+	</array>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>BwNearPeerのサンプルアプリを動作させます</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

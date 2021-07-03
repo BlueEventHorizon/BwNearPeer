@@ -10,4 +10,4 @@ import Foundation
 import os
 
 // swiftlint:disable:next file_types_order prefixed_toplevel_constant
-let log = Logger(PrintLogger())
+internal let log = Logger(PrintLogger())

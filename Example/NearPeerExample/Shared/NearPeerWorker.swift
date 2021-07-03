@@ -7,12 +7,14 @@
 
 import BwNearPeer
 import Combine
-import Foundation
+import InfoPlistKeys
 import UIKit.UIDevice
 
 class NearPeerWorker: ObservableObject {
     let nearPeer: NearPeer
     var counter: Int = 0
+
+    let discoveryInfo: [NearPeerDiscoveryInfoKey: String] = [.identifier: Bundle.main.bundleIdentifier ?? "NearPeerExample", .passcode: "0129"]
 
     @Published var peerName: String = ""
     @Published var recievedText: String = "まだ受信していません"
@@ -20,7 +22,7 @@ class NearPeerWorker: ObservableObject {
     init() {
         nearPeer = NearPeer(maxPeers: 1)
 
-        nearPeer.start(serviceName: "nearpeer", displayName: UIDevice.current.name, discoveryInfo: nil)
+        nearPeer.start(serviceName: "nearpeer", displayName: UIDevice.current.name, discoveryInfo: discoveryInfo)
         nearPeer.onRecieved { peer, data in
             guard let data = data else {
                 log.error("データがありません")
