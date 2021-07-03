@@ -14,6 +14,7 @@ class PeerAdvertiser: NSObject, MCNearbyServiceAdvertiserDelegate {
 
     init(session: MCSession) {
         self.session = session
+
         super.init()
     }
 

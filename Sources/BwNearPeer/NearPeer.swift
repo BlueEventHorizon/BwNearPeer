@@ -76,7 +76,7 @@ public class NearPeer: PeerConnectionDependency {
         browser.stop()
         connection.disconnect()
     }
-    
+
     public func invalidate() {
         stop()
     }
