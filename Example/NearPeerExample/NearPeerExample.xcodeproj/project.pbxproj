@@ -174,10 +174,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 528BEB3C26872321008DB3C2 /* Build configuration list for PBXNativeTarget "NearPeerExample (iOS)" */;
 			buildPhases = (
+				52B7F01C268F794C0063DCF7 /* Run Swiftformat Script */,
 				528BEB0E26872321008DB3C2 /* Sources */,
 				528BEB0F26872321008DB3C2 /* Frameworks */,
 				528BEB1026872321008DB3C2 /* Resources */,
-				52B7F01C268F794C0063DCF7 /* Run Swiftformat Script */,
 			);
 			buildRules = (
 			);
