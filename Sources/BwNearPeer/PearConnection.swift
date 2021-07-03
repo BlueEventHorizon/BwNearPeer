@@ -10,9 +10,9 @@ import MultipeerConnectivity
 
 protocol PearConnectionDependency {
     func connecting(with peer: MCPeerID)
-    func didConnect(with peer: MCPeerID)
-    func didDisconnect(with peer: MCPeerID)
-    func didReceiveData(_ data: Data, from peer: MCPeerID)
+    func connected(with peer: MCPeerID)
+    func disconnected(with peer: MCPeerID)
+    func received(_ data: Data, from peer: MCPeerID)
 
     func stopAdvertising()
     func restartAdvertising()
@@ -46,7 +46,7 @@ class PearConnection: NSObject, MCSessionDelegate {
 
     // Indicates that an NSData object has been received from a nearby peer. Required.
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        dependency.didReceiveData(data, from: peerID)
+        dependency.received(data, from: peerID)
     }
 
     // Indicates that the local peer began receiving a resource from a nearby peer. Required.
@@ -71,7 +71,7 @@ class PearConnection: NSObject, MCSessionDelegate {
                 dependency.connecting(with: peerID)
 
             case .connected:
-                dependency.didConnect(with: peerID)
+                dependency.connected(with: peerID)
 
                 if self.state != .connected {
                     // called n times when MCSession has n connected peers
@@ -79,7 +79,7 @@ class PearConnection: NSObject, MCSessionDelegate {
                 }
 
             case .notConnected:
-                dependency.didDisconnect(with: peerID)
+                dependency.disconnected(with: peerID)
 
                 if self.state == .connected {
                     // restart when something wrong

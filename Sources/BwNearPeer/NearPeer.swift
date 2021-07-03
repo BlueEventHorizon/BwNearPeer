@@ -14,10 +14,10 @@ public class NearPeer: PearConnectionDependency {
 
     private let maxNumPeers: Int
 
-    private var onConnecting: ConnectionHandler?
-    private var onConnect: ConnectionHandler?
-    private var onDisconnect: ConnectionHandler?
-    private var onRecieved: DataRecieveHandler?
+    private var connectingHandler: ConnectionHandler?
+    private var connectedHandler: ConnectionHandler?
+    private var disconnectedHandler: ConnectionHandler?
+    private var recievedHandler: DataRecieveHandler?
 
     private var connection: PearConnection!
     private var advertiser: PearAdvertiser!
@@ -86,19 +86,19 @@ public class NearPeer: PearConnectionDependency {
     }
 
     public func onConnecting(_ handler: ConnectionHandler?) {
-        onConnecting = handler
+        connectingHandler = handler
     }
 
-    public func onConnect(_ handler: ConnectionHandler?) {
-        onConnect = handler
+    public func onConnected(_ handler: ConnectionHandler?) {
+        connectedHandler = handler
     }
 
     public func onDisconnect(_ handler: ConnectionHandler?) {
-        onDisconnect = handler
+        disconnectedHandler = handler
     }
 
     public func onRecieved(handler: DataRecieveHandler?) {
-        onRecieved = handler
+        recievedHandler = handler
     }
 
     public func sendData(_ data: Data) {
@@ -120,33 +120,33 @@ public class NearPeer: PearConnectionDependency {
     // ------------------------------------------------------------------------------------------
 
     func connecting(with peer: MCPeerID) {
-        if let onConnecting = onConnecting {
+        if let connectingHandler = connectingHandler {
             DispatchQueue.main.async {
-                onConnecting(peer)
+                connectingHandler(peer)
             }
         }
     }
 
-    func didConnect(with peer: MCPeerID) {
-        if let onConnect = onConnect {
+    func connected(with peer: MCPeerID) {
+        if let connectedHandler = connectedHandler {
             DispatchQueue.main.async {
-                onConnect(peer)
+                connectedHandler(peer)
             }
         }
     }
 
-    func didDisconnect(with peer: MCPeerID) {
-        if let onDisconnect = onDisconnect {
+    func disconnected(with peer: MCPeerID) {
+        if let disconnectedHandler = disconnectedHandler {
             DispatchQueue.main.async {
-                onDisconnect(peer)
+                disconnectedHandler(peer)
             }
         }
     }
 
-    func didReceiveData(_ data: Data, from peer: MCPeerID) {
-        if let onRecieved = onRecieved {
+    func received(_ data: Data, from peer: MCPeerID) {
+        if let recievedHandler = recievedHandler {
             DispatchQueue.main.async {
-                onRecieved(peer, data)
+                recievedHandler(peer, data)
             }
         }
     }
