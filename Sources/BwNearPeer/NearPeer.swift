@@ -101,7 +101,7 @@ public class NearPeer: PearConnectionDependency {
         recievedHandler = handler
     }
 
-    public func sendData(_ data: Data) {
+    public func send(_ data: Data) {
         let peers = connection.session.connectedPeers
 
         guard !peers.isEmpty else {

@@ -40,7 +40,7 @@ class NearPeerWorker: ObservableObject {
         log.entered(self)
 
         if let encodedData: Data = try? JSONEncoder().encode(text) {
-            nearPeer.sendData(encodedData)
+            nearPeer.send(encodedData)
         } else {
             log.error("encode失敗")
         }
