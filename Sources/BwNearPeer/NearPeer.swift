@@ -38,14 +38,15 @@ public class NearPeer: PeerConnectionDependency {
     ///   - discoveryInfo: The discoveryInfo parameter is a dictionary of string key/value pairs that will be advertised for browsers to see.
     ///                  The content of discoveryInfo will be advertised within Bonjour TXT records, so you should keep the dictionary small for better discovery performance.
     public func start(serviceName: String, displayName: String, discoveryInfo: [String: String]? = nil) {
-        let serviceTypeName = validate(serviceName: serviceName)
+        let validatedServiceName = validate(serviceName: serviceName)
+        let validatedDisplayName = validate(displayName: displayName)
 
-        connection = PeerConnection(displayName: displayName, dependency: self)
+        connection = PeerConnection(displayName: validatedDisplayName, dependency: self)
         advertiser = PeerAdvertiser(session: connection.session)
         browser = PeerBrowser(session: connection.session, maxPeers: maxNumPeers)
 
-        advertiser.start(serviceType: serviceTypeName, discoveryInfo: discoveryInfo)
-        browser.start(serviceType: serviceTypeName)
+        advertiser.start(serviceType: validatedServiceName, discoveryInfo: discoveryInfo)
+        browser.start(serviceType: validatedServiceName)
     }
 
     /// validate
