@@ -9,12 +9,11 @@
 import MultipeerConnectivity
 
 public class NearPeer: PearConnectionDependency {
-
     public typealias ConnectionHandler = ((_ peerID: MCPeerID) -> Void)
     public typealias DataRecieveHandler = ((_ peerID: MCPeerID, _ data: Data?) -> Void)
 
     private let maxNumPeers: Int
-    
+
     private var onConnecting: ConnectionHandler?
     private var onConnect: ConnectionHandler?
     private var onDisconnect: ConnectionHandler?
@@ -23,7 +22,7 @@ public class NearPeer: PearConnectionDependency {
     private var connection: PearConnection!
     private var advertiser: PearAdvertiser!
     private var browser: PearBrowser!
-    
+
     // ------------------------------------------------------------------------------------------
     // MARK: - public
     // ------------------------------------------------------------------------------------------
@@ -39,7 +38,6 @@ public class NearPeer: PearConnectionDependency {
     ///   - discoveryInfo: The discoveryInfo parameter is a dictionary of string key/value pairs that will be advertised for browsers to see.
     ///                  The content of discoveryInfo will be advertised within Bonjour TXT records, so you should keep the dictionary small for better discovery performance.
     public func start(serviceName: String, displayName: String, discoveryInfo: [String: String]? = nil) {
-
         let serviceTypeName = validate(serviceName: serviceName)
 
         connection = PearConnection(displayName: displayName, dependency: self)
@@ -65,7 +63,7 @@ public class NearPeer: PearConnectionDependency {
 
         return String(serviceName.prefix(15))
     }
-    
+
     /// 表示名
     /// - Parameter displayName: The maximum allowable length is 63 bytes in UTF-8 encoding
     /// - Returns: validated displayName
@@ -78,32 +76,31 @@ public class NearPeer: PearConnectionDependency {
         browser.stopBrowsing()
         connection.disconnect()
     }
-    
+
     public func stopAdvertising() {
         advertiser.stop()
     }
-    
+
     public func restartAdvertising() {
         advertiser.restart()
     }
 
-    public func onConnecting(_ handler: ConnectionHandler?){
+    public func onConnecting(_ handler: ConnectionHandler?) {
         onConnecting = handler
     }
 
-    public func onConnect(_ handler: ConnectionHandler?){
+    public func onConnect(_ handler: ConnectionHandler?) {
         onConnect = handler
     }
 
-    public func onDisconnect(_ handler: ConnectionHandler?){
+    public func onDisconnect(_ handler: ConnectionHandler?) {
         onDisconnect = handler
     }
 
-    public func onRecieved(handler: DataRecieveHandler?){
+    public func onRecieved(handler: DataRecieveHandler?) {
         onRecieved = handler
     }
-    
-    
+
     public func sendData(_ data: Data) {
         let peers = connection.session.connectedPeers
 
@@ -117,7 +114,7 @@ public class NearPeer: PearConnectionDependency {
             print(error.localizedDescription)
         }
     }
-    
+
     // ------------------------------------------------------------------------------------------
     // MARK: - Internal
     // ------------------------------------------------------------------------------------------

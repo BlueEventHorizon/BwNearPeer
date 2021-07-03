@@ -25,7 +25,7 @@ class PearBrowser: NSObject, MCNearbyServiceBrowserDelegate {
         browser?.delegate = self
         browser?.startBrowsingForPeers()
     }
-    
+
     func stopBrowsing() {
         browser?.delegate = nil
         browser?.stopBrowsingForPeers()
@@ -35,12 +35,9 @@ class PearBrowser: NSObject, MCNearbyServiceBrowserDelegate {
     // MARK: - MCNearbyServiceBrowserDelegate
     // ------------------------------------------------------------------------------------------
 
-    func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
+    func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String: String]?) {
         browser.invitePeer(peerID, to: session, withContext: nil, timeout: 30)
     }
-    
-    func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
-        
-    }
-}
 
+    func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {}
+}

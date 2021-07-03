@@ -9,10 +9,9 @@
 import MultipeerConnectivity
 
 class PearAdvertiser: NSObject, MCNearbyServiceAdvertiserDelegate {
-
     let session: MCSession
     var isAdvertising: Bool = false
-    
+
     init(session: MCSession) {
         self.session = session
         super.init()
@@ -38,7 +37,7 @@ class PearAdvertiser: NSObject, MCNearbyServiceAdvertiserDelegate {
 
         advertiser?.delegate = nil
         advertiser?.stopAdvertisingPeer()
-        
+
         isAdvertising = false
     }
 
@@ -54,7 +53,7 @@ class PearAdvertiser: NSObject, MCNearbyServiceAdvertiserDelegate {
     // ------------------------------------------------------------------------------------------
     // MARK: - MCNearbyServiceAdvertiserDelegate
     // ------------------------------------------------------------------------------------------
-    
+
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
         invitationHandler(true, session)
     }
