@@ -45,7 +45,7 @@ public class NearPeer: PeerConnectionDependency {
         browser = PeerBrowser(session: connection.session, maxPeers: maxNumPeers)
 
         advertiser.start(serviceType: serviceTypeName, discoveryInfo: discoveryInfo)
-        browser.startBrowsing(serviceType: serviceTypeName)
+        browser.start(serviceType: serviceTypeName)
     }
 
     /// validate
@@ -73,8 +73,12 @@ public class NearPeer: PeerConnectionDependency {
 
     public func stop() {
         advertiser.stop()
-        browser.stopBrowsing()
+        browser.stop()
         connection.disconnect()
+    }
+    
+    public func invalidate() {
+        stop()
     }
 
     public func stopAdvertising() {

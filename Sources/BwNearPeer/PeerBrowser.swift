@@ -20,13 +20,13 @@ class PeerBrowser: NSObject, MCNearbyServiceBrowserDelegate {
         super.init()
     }
 
-    func startBrowsing(serviceType: String) {
+    func start(serviceType: String) {
         browser = MCNearbyServiceBrowser(peer: session.myPeerID, serviceType: serviceType)
         browser?.delegate = self
         browser?.startBrowsingForPeers()
     }
 
-    func stopBrowsing() {
+    func stop() {
         browser?.delegate = nil
         browser?.stopBrowsingForPeers()
     }
