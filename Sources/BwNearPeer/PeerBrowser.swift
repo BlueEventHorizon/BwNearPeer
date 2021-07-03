@@ -8,7 +8,7 @@
 
 import MultipeerConnectivity
 
-class PearBrowser: NSObject, MCNearbyServiceBrowserDelegate {
+class PeerBrowser: NSObject, MCNearbyServiceBrowserDelegate {
     private let session: MCSession
     private let maxNumPeers: Int
     private var browser: MCNearbyServiceBrowser?

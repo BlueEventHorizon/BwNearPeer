@@ -8,7 +8,7 @@
 
 import MultipeerConnectivity
 
-public class NearPeer: PearConnectionDependency {
+public class NearPeer: PeerConnectionDependency {
     public typealias ConnectionHandler = ((_ peerID: MCPeerID) -> Void)
     public typealias DataRecieveHandler = ((_ peerID: MCPeerID, _ data: Data?) -> Void)
 
@@ -19,9 +19,9 @@ public class NearPeer: PearConnectionDependency {
     private var disconnectedHandler: ConnectionHandler?
     private var recievedHandler: DataRecieveHandler?
 
-    private var connection: PearConnection!
-    private var advertiser: PearAdvertiser!
-    private var browser: PearBrowser!
+    private var connection: PeerConnection!
+    private var advertiser: PeerAdvertiser!
+    private var browser: PeerBrowser!
 
     // ------------------------------------------------------------------------------------------
     // MARK: - public
@@ -40,9 +40,9 @@ public class NearPeer: PearConnectionDependency {
     public func start(serviceName: String, displayName: String, discoveryInfo: [String: String]? = nil) {
         let serviceTypeName = validate(serviceName: serviceName)
 
-        connection = PearConnection(displayName: displayName, dependency: self)
-        advertiser = PearAdvertiser(session: connection.session)
-        browser = PearBrowser(session: connection.session, maxPeers: maxNumPeers)
+        connection = PeerConnection(displayName: displayName, dependency: self)
+        advertiser = PeerAdvertiser(session: connection.session)
+        browser = PeerBrowser(session: connection.session, maxPeers: maxNumPeers)
 
         advertiser.start(serviceType: serviceTypeName, discoveryInfo: discoveryInfo)
         browser.startBrowsing(serviceType: serviceTypeName)

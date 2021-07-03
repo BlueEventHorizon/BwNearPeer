@@ -8,7 +8,7 @@
 
 import MultipeerConnectivity
 
-class PearAdvertiser: NSObject, MCNearbyServiceAdvertiserDelegate {
+class PeerAdvertiser: NSObject, MCNearbyServiceAdvertiserDelegate {
     let session: MCSession
     var isAdvertising: Bool = false
 

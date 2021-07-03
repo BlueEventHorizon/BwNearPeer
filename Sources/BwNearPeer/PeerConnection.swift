@@ -8,7 +8,7 @@
 
 import MultipeerConnectivity
 
-protocol PearConnectionDependency {
+protocol PeerConnectionDependency {
     func connecting(with peer: MCPeerID)
     func connected(with peer: MCPeerID)
     func disconnected(with peer: MCPeerID)
@@ -18,14 +18,14 @@ protocol PearConnectionDependency {
     func restartAdvertising()
 }
 
-class PearConnection: NSObject, MCSessionDelegate {
-    private let dependency: PearConnectionDependency
+class PeerConnection: NSObject, MCSessionDelegate {
+    private let dependency: PeerConnectionDependency
 
     private(set) var peerID: MCPeerID
     private(set) var session: MCSession
     private(set) var state: MCSessionState = .notConnected
 
-    init(displayName: String = "com.beowulf-tech", dependency: PearConnectionDependency) {
+    init(displayName: String = "com.beowulf-tech", dependency: PeerConnectionDependency) {
         self.dependency = dependency
         self.peerID = MCPeerID(displayName: String(displayName.prefix(10)))
         self.session = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .none)
