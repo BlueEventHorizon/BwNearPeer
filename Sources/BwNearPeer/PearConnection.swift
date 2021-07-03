@@ -78,7 +78,7 @@ class PearConnection: NSObject, MCSessionDelegate {
                     //called n times when MCSession has n connected peers
                     dependency.stopAdvertising()
                 }
-                
+
             case .notConnected:
                 dependency.didDisconnect(with: peerID)
                 
@@ -86,6 +86,9 @@ class PearConnection: NSObject, MCSessionDelegate {
                     // restart when something wrong
                     dependency.restartAdvertising()
                 }
+                
+            default:
+                break
         }
         self.state = state
     }
