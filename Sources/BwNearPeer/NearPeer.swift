@@ -24,9 +24,9 @@ public class NearPeer: PeerConnectionDependency {
     private var disconnectedHandler: ConnectionHandler?
     private var recievedHandler: DataRecieveHandler?
 
-    private var connection: PeerConnection!
-    private var advertiser: PeerAdvertiser!
-    private var browser: PeerBrowser!
+    private var connection: PeerConnection?
+    private var advertiser: PeerAdvertiser?
+    private var browser: PeerBrowser?
 
     // ------------------------------------------------------------------------------------------
     // MARK: - public
@@ -46,12 +46,15 @@ public class NearPeer: PeerConnectionDependency {
         let validatedServiceName = validate(serviceName: serviceName)
         let validatedDisplayName = validate(displayName: displayName)
 
-        connection = PeerConnection(displayName: validatedDisplayName, dependency: self)
+        self.connection = PeerConnection(displayName: validatedDisplayName, dependency: self)
+        
+        guard let connection = connection else { return }
+
         advertiser = PeerAdvertiser(session: connection.session)
         browser = PeerBrowser(session: connection.session, maxPeers: maxNumPeers)
 
-        advertiser.start(serviceType: validatedServiceName, discoveryInfo: discoveryInfo)
-        browser.start(serviceType: validatedServiceName, discoveryInfo: discoveryInfo)
+        advertiser?.start(serviceType: validatedServiceName, discoveryInfo: discoveryInfo)
+        browser?.start(serviceType: validatedServiceName, discoveryInfo: discoveryInfo)
     }
 
     /// validate
@@ -78,9 +81,9 @@ public class NearPeer: PeerConnectionDependency {
     }
 
     public func stop() {
-        advertiser.stop()
-        browser.stop()
-        connection.disconnect()
+        advertiser?.stop()
+        browser?.stop()
+        connection?.disconnect()
     }
 
     public func invalidate() {
@@ -88,11 +91,11 @@ public class NearPeer: PeerConnectionDependency {
     }
 
     public func stopAdvertising() {
-        advertiser.stop()
+        advertiser?.stop()
     }
 
     public func restartAdvertising() {
-        advertiser.restart()
+        advertiser?.restart()
     }
 
     public func onConnecting(_ handler: ConnectionHandler?) {
@@ -112,6 +115,10 @@ public class NearPeer: PeerConnectionDependency {
     }
 
     public func send(_ data: Data) {
+        guard let connection = connection else {
+            return
+        }
+
         let peers = connection.session.connectedPeers
 
         guard !peers.isEmpty else {
