@@ -29,6 +29,33 @@ public class NearPeer: PeerConnectionDependency {
     private var browser: PeerBrowser?
 
     // ------------------------------------------------------------------------------------------
+    // MARK: - private
+    // ------------------------------------------------------------------------------------------
+    
+    /// validate
+    /// - Parameter service: Must be 1–15 characters long,
+    ///                  Can contain only ASCII lowercase letters,
+    ///                  numbers, and hyphens, Must contain at least one ASCII letter,
+    ///                  Must not begin or end with a hyphen,
+    /// - Returns: validated service name
+    private func validate(serviceName: String) -> String {
+        guard serviceName.count > 0 else {
+            return "."
+        }
+
+        // Must be 1–15 characters long の他は未実装
+
+        return String(serviceName.prefix(15))
+    }
+
+    /// 表示名
+    /// - Parameter displayName: The maximum allowable length is 63 bytes in UTF-8 encoding
+    /// - Returns: validated displayName
+    private func validate(displayName: String) -> String {
+        return String(displayName.prefix(63))
+    }
+    
+    // ------------------------------------------------------------------------------------------
     // MARK: - public
     // ------------------------------------------------------------------------------------------
 
@@ -55,29 +82,6 @@ public class NearPeer: PeerConnectionDependency {
 
         advertiser?.start(serviceType: validatedServiceName, discoveryInfo: discoveryInfo)
         browser?.start(serviceType: validatedServiceName, discoveryInfo: discoveryInfo)
-    }
-
-    /// validate
-    /// - Parameter service: Must be 1–15 characters long,
-    ///                  Can contain only ASCII lowercase letters,
-    ///                  numbers, and hyphens, Must contain at least one ASCII letter,
-    ///                  Must not begin or end with a hyphen,
-    /// - Returns: validated service name
-    private func validate(serviceName: String) -> String {
-        guard serviceName.count > 0 else {
-            return "."
-        }
-
-        // Must be 1–15 characters long の他は未実装
-
-        return String(serviceName.prefix(15))
-    }
-
-    /// 表示名
-    /// - Parameter displayName: The maximum allowable length is 63 bytes in UTF-8 encoding
-    /// - Returns: validated displayName
-    private func validate(displayName: String) -> String {
-        return String(displayName.prefix(63))
     }
 
     public func stop() {
