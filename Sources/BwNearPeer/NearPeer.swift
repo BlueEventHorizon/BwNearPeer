@@ -118,6 +118,7 @@ public class NearPeer: PeerConnectionDependency {
         recievedHandler = handler
     }
 
+    // 全てのPeerに送っている。（個別に送れそうですね！！）
     public func send(_ data: Data) {
         guard let connection = connection else {
             return
