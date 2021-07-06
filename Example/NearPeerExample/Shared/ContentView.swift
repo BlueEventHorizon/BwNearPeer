@@ -14,6 +14,12 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack(alignment: .leading, spacing: 25) {
+                Text("接続先: \(nearPeerWorker.peers.first ?? "")")
+
+                Rectangle()
+                    .fill(Color(UIColor.systemGray3))
+                    .frame(height: 1.1)
+
                 VStack(alignment: .leading, spacing: 10) {
                     HStack {
                         Image(systemName: "text.bubble")

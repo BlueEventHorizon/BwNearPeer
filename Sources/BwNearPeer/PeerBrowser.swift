@@ -68,5 +68,7 @@ class PeerBrowser: NSObject, MCNearbyServiceBrowserDelegate {
         browser.invitePeer(peerID, to: session, withContext: nil, timeout: 30)
     }
 
-    func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {}
+    func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
+        log.debug("lost \(peerID.displayName)")
+    }
 }

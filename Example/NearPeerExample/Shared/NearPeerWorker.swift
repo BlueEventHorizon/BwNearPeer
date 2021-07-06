@@ -16,6 +16,7 @@ class NearPeerWorker: ObservableObject {
 
     let discoveryInfo: [NearPeerDiscoveryInfoKey: String] = [.identifier: Bundle.main.bundleIdentifier ?? "NearPeerExample", .passcode: "0129"]
 
+    @Published var peers: [String] = [String]()
     @Published var peerName: String = ""
     @Published var recievedText: String = "まだ受信していません"
 
@@ -23,6 +24,10 @@ class NearPeerWorker: ObservableObject {
         nearPeer = NearPeer(maxPeers: 1)
 
         nearPeer.start(serviceName: "nearpeer", displayName: UIDevice.current.name, discoveryInfo: discoveryInfo)
+        nearPeer.onConnected { peer in
+            self.peers.append(peer.displayName)
+        }
+
         nearPeer.onRecieved { peer, data in
             guard let data = data else {
                 log.error("データがありません")
