@@ -25,6 +25,8 @@ class NearPeerWorker: ObservableObject {
 
         nearPeer.start(serviceName: "nearpeer", displayName: UIDevice.current.name, discoveryInfo: discoveryInfo)
         nearPeer.onConnected { peer in
+
+            // TODO: 切断された時の処理を追加すること
             self.peers.append(peer.displayName)
         }
 
