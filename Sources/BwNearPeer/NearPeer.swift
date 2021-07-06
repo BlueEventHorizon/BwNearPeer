@@ -9,7 +9,10 @@
 import MultipeerConnectivity
 
 public enum NearPeerDiscoveryInfoKey: String {
+    /// Bundle Identifierなどアプリを特定するために使用すると良い
     case identifier
+    
+    /// ４桁の数字など、事前に交換した簡易な数字を与えると良い
     case passcode
 }
 
@@ -131,6 +134,7 @@ public class NearPeer: PeerConnectionDependency {
         }
 
         do {
+            // .reliableではおそらくtcp（相当）を使う。
             try connection.session.send(data, toPeers: peers, with: .reliable)
         } catch {
             print(error.localizedDescription)

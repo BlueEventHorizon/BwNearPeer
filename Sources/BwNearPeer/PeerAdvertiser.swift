@@ -63,6 +63,7 @@ class PeerAdvertiser: NSObject, MCNearbyServiceAdvertiserDelegate {
     // MARK: - MCNearbyServiceAdvertiserDelegate
     // ------------------------------------------------------------------------------------------
 
+    /// セッションへの招待を受ける
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
         invitationHandler(true, session)
     }

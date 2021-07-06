@@ -26,11 +26,11 @@ class PeerConnection: NSObject, MCSessionDelegate {
     private(set) var session: MCSession
     private(set) var state: MCSessionState = .notConnected
 
-    init(displayName: String = "com.beowulf-tech", dependency: PeerConnectionDependency) {
+    init(displayName: String = "unknown", dependency: PeerConnectionDependency) {
         log.entered()
 
         self.dependency = dependency
-        self.peerID = MCPeerID(displayName: String(displayName.prefix(10)))
+        self.peerID = MCPeerID(displayName: String(displayName.prefix(63)))
         self.session = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .none)
 
         super.init()
