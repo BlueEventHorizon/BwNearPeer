@@ -1,3 +1,39 @@
+# ==============
+# Xcode
+# ==============
+
+build/
+Build/
+
+DerivedData/
+xcuserdata/
+
+# これ必要？
+project.xcworkspace/xcshareddata/
+project.xcworkspace/
+
+*.xcuserstate
+
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+
+*.moved-aside
+*.xccheckout
+*.xcscmblueprint
+
+*.hmap
+*.ipa
+*.o
+
+## Playgrounds
+timeline.xctimeline
+playground.xcworkspace
 
 # ==============
 # Xcodegen
@@ -8,37 +44,6 @@
 # Info.plist
 
 # ==============
-# Xcode
-# ==============
-
-xcuserdata/
-project.xcworkspace/xcshareddata/
-project.xcworkspace/
-DerivedData
-*.xcuserstate
-
-build/
-Build/
-
-*.pbxuser
-!default.pbxuser
-*.mode1v3
-!default.mode1v3
-*.mode2v3
-!default.mode2v3
-*.perspectivev3
-!default.perspectivev3
-xcuserdata/
-*.xccheckout
-*.moved-aside
-*.hmap
-*.ipa
-
-*.o
-
-timeline.xctimeline
-
-# ==============
 # Swift Package Manager
 # ==============
 
@@ -47,11 +52,7 @@ timeline.xctimeline
 Package.resolved
 .swiftpm/
 
-# ==============
-# RSwift
-# ==============
-
-R.generated.swift
+#################################
 
 # ==============
 # MacOS
@@ -69,12 +70,7 @@ R.generated.swift
 # direnv
 .envrc
 
-# ==============
-# LicensePlist
-# ==============
-
-com.mono0926.LicensePlist
-com.mono0926.LicensePlist.*
+#################################
 
 # ==============
 # Carthage
@@ -89,10 +85,44 @@ Carthage/
 Pods/
 
 # ==============
+# RSwift
+# ==============
+
+R.generated.swift
+
+# ==============
+# DIKit
+# ==============
+
+AppResolver.generated.swift
+
+# ==============
 # Bundle
 # ==============
 
 vendor/
+
+# ==============
+# fastlane
+# ==============
+
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# ==============
+# Bundler
+# ==============
+
+vendor/bundles
+
+# ==============
+# LicensePlist
+# ==============
+
+com.mono0926.LicensePlist
+com.mono0926.LicensePlist.*
 
 # ==============
 # etc.
