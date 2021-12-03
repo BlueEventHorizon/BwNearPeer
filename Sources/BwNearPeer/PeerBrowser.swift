@@ -32,7 +32,7 @@ class PeerBrowser: NSObject, MCNearbyServiceBrowserDelegate {
         browser?.delegate = nil
         browser?.stopBrowsingForPeers()
     }
-    
+
     private func isMutchDiscoveryInfo(_ info: [String: String]?) -> Bool {
         guard let discoveryInfo = discoveryInfo else {
             // discoveryInfoが定義されていない場合は、なんでも受け入れる
@@ -43,7 +43,7 @@ class PeerBrowser: NSObject, MCNearbyServiceBrowserDelegate {
             // discoveryInfoが定義されていて、ブラウズしたpeerがdiscoveryInfoを持っていない場合は、接続しない
             return false
         }
-        
+
         for key in discoveryInfo.keys {
             if discoveryInfo[key] == info[key.rawValue] {
                 continue

@@ -6,8 +6,8 @@
 //  Copyright (c) 2018 k2moons. All rights reserved.
 //
 
-import MultipeerConnectivity
 import BwLogger
+import MultipeerConnectivity
 
 protocol PeerConnectionDependency {
     func connecting(with peer: MCPeerID)

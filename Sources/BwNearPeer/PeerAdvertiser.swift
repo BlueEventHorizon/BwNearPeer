@@ -26,7 +26,7 @@ class PeerAdvertiser: NSObject, MCNearbyServiceAdvertiserDelegate {
         }
 
         isAdvertising = true
-        var infoArray: [String: String]? = nil
+        var infoArray: [String: String]?
         if let infos = discoveryInfo {
             infoArray = [String: String]()
             infos.forEach { key, value in

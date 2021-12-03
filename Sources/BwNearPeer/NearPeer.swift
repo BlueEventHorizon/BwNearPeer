@@ -11,7 +11,7 @@ import MultipeerConnectivity
 public enum NearPeerDiscoveryInfoKey: String {
     /// Bundle Identifierなどアプリを特定するために使用すると良い
     case identifier
-    
+
     /// ４桁の数字など、事前に交換した簡易な数字を与えると良い
     case passcode
 }
@@ -34,7 +34,7 @@ public class NearPeer: PeerConnectionDependency {
     // ------------------------------------------------------------------------------------------
     // MARK: - private
     // ------------------------------------------------------------------------------------------
-    
+
     /// validate
     /// - Parameter service: Must be 1–15 characters long,
     ///                  Can contain only ASCII lowercase letters,
@@ -57,7 +57,7 @@ public class NearPeer: PeerConnectionDependency {
     private func validate(displayName: String) -> String {
         return String(displayName.prefix(63))
     }
-    
+
     // ------------------------------------------------------------------------------------------
     // MARK: - public
     // ------------------------------------------------------------------------------------------
@@ -77,7 +77,7 @@ public class NearPeer: PeerConnectionDependency {
         let validatedDisplayName = validate(displayName: displayName)
 
         self.connection = PeerConnection(displayName: validatedDisplayName, dependency: self)
-        
+
         guard let connection = connection else { return }
 
         advertiser = PeerAdvertiser(session: connection.session)
@@ -147,7 +147,7 @@ public class NearPeer: PeerConnectionDependency {
 
     func connecting(with peer: MCPeerID) {
         log.entered(self)
-        
+
         if let connectingHandler = connectingHandler {
             DispatchQueue.main.async {
                 connectingHandler(peer)
@@ -157,7 +157,7 @@ public class NearPeer: PeerConnectionDependency {
 
     func connected(with peer: MCPeerID) {
         log.entered(self)
-        
+
         if let connectedHandler = connectedHandler {
             DispatchQueue.main.async {
                 connectedHandler(peer)
@@ -167,7 +167,7 @@ public class NearPeer: PeerConnectionDependency {
 
     func disconnected(with peer: MCPeerID) {
         log.entered(self)
-        
+
         if let disconnectedHandler = disconnectedHandler {
             DispatchQueue.main.async {
                 disconnectedHandler(peer)
