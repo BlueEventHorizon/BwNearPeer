@@ -10,9 +10,9 @@ import Foundation
 import os
 
 #if targetEnvironment(simulator)
-// swiftlint:disable:next file_types_order prefixed_toplevel_constant
-internal let log = Logger([PrintLogger()], levels: nil)
+    // swiftlint:disable:next file_types_order prefixed_toplevel_constant
+    internal let log = Logger([PrintLogger()], levels: nil)
 #else
-// swiftlint:disable:next file_types_order prefixed_toplevel_constant
-internal let log = Logger([OsLogger(subsystem: "beowulf-tech.BwNearPeer", category: "BwTools")], levels: nil)
+    // swiftlint:disable:next file_types_order prefixed_toplevel_constant
+    internal let log = Logger([OsLogger(subsystem: "beowulf-tech.BwNearPeer", category: "BwTools")], levels: nil)
 #endif

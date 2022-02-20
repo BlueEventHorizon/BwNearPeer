@@ -17,8 +17,8 @@ public enum NearPeerDiscoveryInfoKey: String {
 }
 
 public class NearPeer: PeerConnectionDependency {
-    public typealias ConnectionHandler = ((_ peerID: MCPeerID) -> Void)
-    public typealias DataRecieveHandler = ((_ peerID: MCPeerID, _ data: Data?) -> Void)
+    public typealias ConnectionHandler = (_ peerID: MCPeerID) -> Void
+    public typealias DataRecieveHandler = (_ peerID: MCPeerID, _ data: Data?) -> Void
 
     private let maxNumPeers: Int
 
