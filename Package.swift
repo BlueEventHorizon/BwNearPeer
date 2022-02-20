@@ -16,9 +16,10 @@ let package = Package(
         ),
     ],
     dependencies: [
-        // .package(url: "https://github.com/BlueEventHorizon/BwLogger.git", from: "4.0.12"),
-        .package(url: "https://github.com/BlueEventHorizon/BwLogger.git", .branch("main")),
-        .package(url: "https://github.com/BlueEventHorizon/InfoPlistKeys.git", .branch("main")),
+        .package(url: "https://github.com/BlueEventHorizon/BwLogger.git", from: "5.0.0"),
+        .package(url: "https://github.com/BlueEventHorizon/InfoPlistKeys.git", from: "1.0.0"),
+//        .package(url: "https://github.com/BlueEventHorizon/BwLogger.git", .branch("main")),
+//        .package(url: "https://github.com/BlueEventHorizon/InfoPlistKeys.git", .branch("main")),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
