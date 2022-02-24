@@ -22,6 +22,7 @@
 		528BEB3726872321008DB3C2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528BEB0C26872320008DB3C2 /* ContentView.swift */; };
 		528BEB3826872321008DB3C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 528BEB0D26872320008DB3C2 /* Assets.xcassets */; };
 		528BEB3926872321008DB3C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 528BEB0D26872320008DB3C2 /* Assets.xcassets */; };
+		52A06B4D27C7F32600AD9385 /* BwLogger in Frameworks */ = {isa = PBXBuildFile; productRef = 52A06B4C27C7F32600AD9385 /* BwLogger */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		528BEB2D26872321008DB3C2 /* Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		528BEB3126872321008DB3C2 /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
 		528BEB3326872321008DB3C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		52A06B4A27C7F0F500AD9385 /* BwNearPeer */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = BwNearPeer; path = ../..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +69,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5259218A27C2AA5500047407 /* BwNearPeer in Frameworks */,
+				52A06B4D27C7F32600AD9385 /* BwLogger in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,6 +100,7 @@
 		528BEB0526872320008DB3C2 = {
 			isa = PBXGroup;
 			children = (
+				52A06B4A27C7F0F500AD9385 /* BwNearPeer */,
 				528BEB0A26872320008DB3C2 /* Shared */,
 				528BEB1426872321008DB3C2 /* iOS */,
 				528BEB1B26872321008DB3C2 /* macOS */,
@@ -184,6 +188,7 @@
 			name = "NearPeerExample (iOS)";
 			packageProductDependencies = (
 				5259218927C2AA5500047407 /* BwNearPeer */,
+				52A06B4C27C7F32600AD9385 /* BwLogger */,
 			);
 			productName = "NearPeerExample (iOS)";
 			productReference = 528BEB1226872321008DB3C2 /* NearPeerExample.app */;
@@ -278,6 +283,7 @@
 			mainGroup = 528BEB0526872320008DB3C2;
 			packageReferences = (
 				5259218827C2AA5500047407 /* XCRemoteSwiftPackageReference "BwNearPeer" */,
+				52A06B4B27C7F32600AD9385 /* XCRemoteSwiftPackageReference "BwLogger" */,
 			);
 			productRefGroup = 528BEB1326872321008DB3C2 /* Products */;
 			projectDirPath = "";
@@ -754,6 +760,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		52A06B4B27C7F32600AD9385 /* XCRemoteSwiftPackageReference "BwLogger" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/BlueEventHorizon/BwLogger";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -761,6 +775,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5259218827C2AA5500047407 /* XCRemoteSwiftPackageReference "BwNearPeer" */;
 			productName = BwNearPeer;
+		};
+		52A06B4C27C7F32600AD9385 /* BwLogger */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 52A06B4B27C7F32600AD9385 /* XCRemoteSwiftPackageReference "BwLogger" */;
+			productName = BwLogger;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

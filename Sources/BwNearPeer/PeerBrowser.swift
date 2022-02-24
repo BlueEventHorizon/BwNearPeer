@@ -69,6 +69,6 @@ class PeerBrowser: NSObject, MCNearbyServiceBrowserDelegate {
     }
 
     func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
-        log.debug("lost \(peerID.displayName)")
+        // TODO:  log.debug("lost \(peerID.displayName)")
     }
 }

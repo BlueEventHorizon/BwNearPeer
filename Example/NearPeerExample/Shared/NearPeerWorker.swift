@@ -7,7 +7,6 @@
 
 import BwNearPeer
 import Combine
-import InfoPlistKeys
 import UIKit.UIDevice
 
 class NearPeerWorker: ObservableObject {
