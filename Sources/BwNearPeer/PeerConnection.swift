@@ -8,25 +8,21 @@
 
 import MultipeerConnectivity
 
-protocol PeerConnectionDependency {
-    func connecting(with peer: MCPeerID)
-    func connected(with peer: MCPeerID)
-    func disconnected(with peer: MCPeerID)
-    func received(_ data: Data, from peer: MCPeerID)
-
-    func stopAdvertising()
-    func restartAdvertising()
-}
+public typealias ConnectionHandler = (_ peerID: MCPeerID) -> Void
+public typealias DataReceiveHandler = (_ peerID: MCPeerID, _ data: Data?) -> Void
 
 class PeerConnection: NSObject, MCSessionDelegate {
-    private let dependency: PeerConnectionDependency
-
     private(set) var peerID: MCPeerID
     private(set) var session: MCSession
     private(set) var state: MCSessionState = .notConnected
 
-    init(displayName: String = "unknown", dependency: PeerConnectionDependency) {
-        self.dependency = dependency
+    var connectingHandler: ConnectionHandler?
+    var connectedHandler: ConnectionHandler?
+    var disconnectedHandler: ConnectionHandler?
+    var receivedHandler: DataReceiveHandler?
+
+    init(displayName: String = "unknown") {
+
         self.peerID = MCPeerID(displayName: String(displayName.prefix(63)))
         self.session = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .none)
 
@@ -46,7 +42,7 @@ class PeerConnection: NSObject, MCSessionDelegate {
 
     // Indicates that an NSData object has been received from a nearby peer. Required.
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        dependency.received(data, from: peerID)
+        receivedHandler?( peerID, data)
     }
 
     // Indicates that the local peer began receiving a resource from a nearby peer. Required.
@@ -68,24 +64,14 @@ class PeerConnection: NSObject, MCSessionDelegate {
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         switch state {
             case .connecting:
-                dependency.connecting(with: peerID)
+            connectingHandler?(peerID)
 
             case .connected:
                 // called after certificated
-                dependency.connected(with: peerID)
-
-                if self.state != .connected {
-                    // called n times when MCSession has n connected peers
-                    // dependency.stopAdvertising()
-                }
+            connectedHandler?(peerID)
 
             case .notConnected:
-                dependency.disconnected(with: peerID)
-
-                if self.state == .connected {
-                    // restart when something wrong
-                    // dependency.restartAdvertising()
-                }
+            disconnectedHandler?(peerID)
 
             default:
                 break

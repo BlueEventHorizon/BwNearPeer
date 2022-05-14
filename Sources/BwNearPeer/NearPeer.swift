@@ -16,16 +16,34 @@ public enum NearPeerDiscoveryInfoKey: String {
     case passcode
 }
 
-public class NearPeer: PeerConnectionDependency {
-    public typealias ConnectionHandler = (_ peerID: MCPeerID) -> Void
-    public typealias DataRecieveHandler = (_ peerID: MCPeerID, _ data: Data?) -> Void
+public protocol NearPeerProtocol {
 
+     init(maxPeers: Int)
+
+     func start(serviceName: String, displayName: String, discoveryInfo: [NearPeerDiscoveryInfoKey: String]?)
+
+     func stop()
+
+     func invalidate()
+
+     func stopAdvertising()
+
+     func restartAdvertising()
+
+     func onConnecting(_ handler: ConnectionHandler?)
+
+     func onConnected(_ handler: ConnectionHandler?)
+
+     func onDisconnect(_ handler: ConnectionHandler?)
+
+     func onReceived(_ handler: DataReceiveHandler?)
+
+    // 全てのPeerに送っている。（個別に送れそうですね！！）
+     func send(_ data: Data)
+}
+
+public class NearPeer: NearPeerProtocol {
     private let maxNumPeers: Int
-
-    private var connectingHandler: ConnectionHandler?
-    private var connectedHandler: ConnectionHandler?
-    private var disconnectedHandler: ConnectionHandler?
-    private var recievedHandler: DataRecieveHandler?
 
     private var connection: PeerConnection?
     private var advertiser: PeerAdvertiser?
@@ -62,7 +80,7 @@ public class NearPeer: PeerConnectionDependency {
     // MARK: - public
     // ------------------------------------------------------------------------------------------
 
-    public init(maxPeers: Int) {
+    required public init(maxPeers: Int) {
         maxNumPeers = maxPeers
     }
 
@@ -76,7 +94,7 @@ public class NearPeer: PeerConnectionDependency {
         let validatedServiceName = validate(serviceName: serviceName)
         let validatedDisplayName = validate(displayName: displayName)
 
-        self.connection = PeerConnection(displayName: validatedDisplayName, dependency: self)
+        self.connection = PeerConnection(displayName: validatedDisplayName)
 
         guard let connection = connection else { return }
 
@@ -106,19 +124,19 @@ public class NearPeer: PeerConnectionDependency {
     }
 
     public func onConnecting(_ handler: ConnectionHandler?) {
-        connectingHandler = handler
+        self.connection?.connectedHandler = handler
     }
 
     public func onConnected(_ handler: ConnectionHandler?) {
-        connectedHandler = handler
+        self.connection?.connectedHandler = handler
     }
 
     public func onDisconnect(_ handler: ConnectionHandler?) {
-        disconnectedHandler = handler
+        self.connection?.disconnectedHandler = handler
     }
 
-    public func onRecieved(handler: DataRecieveHandler?) {
-        recievedHandler = handler
+    public func onReceived(_ handler: DataReceiveHandler?) {
+        self.connection?.receivedHandler = handler
     }
 
     // 全てのPeerに送っている。（個別に送れそうですね！！）
@@ -138,42 +156,6 @@ public class NearPeer: PeerConnectionDependency {
             try connection.session.send(data, toPeers: peers, with: .reliable)
         } catch {
             print(error.localizedDescription)
-        }
-    }
-
-    // ------------------------------------------------------------------------------------------
-    // MARK: - Internal
-    // ------------------------------------------------------------------------------------------
-
-    func connecting(with peer: MCPeerID) {
-        if let connectingHandler = connectingHandler {
-            DispatchQueue.main.async {
-                connectingHandler(peer)
-            }
-        }
-    }
-
-    func connected(with peer: MCPeerID) {
-        if let connectedHandler = connectedHandler {
-            DispatchQueue.main.async {
-                connectedHandler(peer)
-            }
-        }
-    }
-
-    func disconnected(with peer: MCPeerID) {
-        if let disconnectedHandler = disconnectedHandler {
-            DispatchQueue.main.async {
-                disconnectedHandler(peer)
-            }
-        }
-    }
-
-    func received(_ data: Data, from peer: MCPeerID) {
-        if let recievedHandler = recievedHandler {
-            DispatchQueue.main.async {
-                recievedHandler(peer, data)
-            }
         }
     }
 }
