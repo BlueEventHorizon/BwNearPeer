@@ -40,30 +40,29 @@ class PeerConnection: NSObject, MCSessionDelegate {
     // MARK: - MCSessionDelegate
     // ------------------------------------------------------------------------------------------
 
-    // Indicates that an NSData object has been received from a nearby peer. Required.
+    /// 近くのPeerから NSData オブジェクトを受信したことを示す。必須。
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         DispatchQueue.main.async {
             self.receivedHandler?( peerID, data)
         }
-        
     }
 
-    // Indicates that the local peer began receiving a resource from a nearby peer. Required.
+    /// ローカルPeerが近くのPeerからリソースの受信を開始したことを示す。必須。
     func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
         // TODO:
     }
 
-    // Indicates that the local peer finished receiving a resource from a nearby peer. Required.
+    /// ローカルPeerが近くのPeerからリソースの受信を終了したことを示す。必須。
     func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
         // TODO:
     }
 
-    // Called when a nearby peer opens a byte stream connection to the local peer. Required.
+    /// 近くのピアからローカルピアへのバイトストリーム接続が開かれたときに呼び出されます。必須。
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
         // TODO:
     }
 
-    // Called when the state of a nearby peer changes. Required.
+    /// 近くのピアの状態が変化したときに呼び出されます。必須。
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         switch state {
             case .connecting:
@@ -88,7 +87,7 @@ class PeerConnection: NSObject, MCSessionDelegate {
         self.state = state
     }
 
-    // Called to validate the client certificate provided by a peer when the connection is first established.
+    /// 接続が最初に確立されたときに、相手から提供されたクライアント証明書を検証するために呼び出されます。
     func session(_ session: MCSession, didReceiveCertificate certificate: [Any]?, fromPeer peerID: MCPeerID, certificateHandler: @escaping (Bool) -> Void) {
         certificateHandler(true)
     }
