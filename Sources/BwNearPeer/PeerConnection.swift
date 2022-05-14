@@ -42,7 +42,10 @@ class PeerConnection: NSObject, MCSessionDelegate {
 
     // Indicates that an NSData object has been received from a nearby peer. Required.
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        receivedHandler?( peerID, data)
+        DispatchQueue.main.async {
+            self.receivedHandler?( peerID, data)
+        }
+        
     }
 
     // Indicates that the local peer began receiving a resource from a nearby peer. Required.
@@ -64,14 +67,20 @@ class PeerConnection: NSObject, MCSessionDelegate {
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         switch state {
             case .connecting:
-            connectingHandler?(peerID)
+            DispatchQueue.main.async {
+                self.connectingHandler?(peerID)
+            }
 
             case .connected:
                 // called after certificated
-            connectedHandler?(peerID)
+            DispatchQueue.main.async {
+                self.connectedHandler?(peerID)
+            }
 
             case .notConnected:
-            disconnectedHandler?(peerID)
+            DispatchQueue.main.async {
+                self.disconnectedHandler?(peerID)
+            }
 
             default:
                 break

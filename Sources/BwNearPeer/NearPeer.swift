@@ -48,6 +48,11 @@ public class NearPeer: NearPeerProtocol {
     private var connection: PeerConnection?
     private var advertiser: PeerAdvertiser?
     private var browser: PeerBrowser?
+    
+    private var connectingHandler: ConnectionHandler?
+    private var connectedHandler: ConnectionHandler?
+    private var disconnectedHandler: ConnectionHandler?
+    private var receivedHandler: DataReceiveHandler?
 
     // ------------------------------------------------------------------------------------------
     // MARK: - private
@@ -87,9 +92,9 @@ public class NearPeer: NearPeerProtocol {
     /// Start peer communication
     /// - Parameters:
     ///   - serviceName: サービス名
-    ///   - displayName: The display name for the local peer
-    ///   - discoveryInfo: The discoveryInfo parameter is a dictionary of string key/value pairs that will be advertised for browsers to see.
-    ///                  The content of discoveryInfo will be advertised within Bonjour TXT records, so you should keep the dictionary small for better discovery performance.
+    ///   - displayName: ローカルピアの表示名
+    ///   - discoveryInfo: discoveryInfoパラメータは、ブラウザが見ることができるように広告される文字列キー/値ペアの辞書です。
+    ///                    discoveryInfoのコンテンツはBonjour TXTレコード内でアドバタイズされるので、ディスカバリーのパフォーマンスを上げるために辞書を小さくしておく必要があります。
     public func start(serviceName: String, displayName: String, discoveryInfo: [NearPeerDiscoveryInfoKey: String]? = nil) {
         let validatedServiceName = validate(serviceName: serviceName)
         let validatedDisplayName = validate(displayName: displayName)
@@ -97,12 +102,19 @@ public class NearPeer: NearPeerProtocol {
         self.connection = PeerConnection(displayName: validatedDisplayName)
 
         guard let connection = connection else { return }
+        
+        self.connection?.connectedHandler = connectingHandler
+        self.connection?.connectedHandler = connectedHandler
+        self.connection?.disconnectedHandler = disconnectedHandler
+        self.connection?.receivedHandler = receivedHandler
 
         advertiser = PeerAdvertiser(session: connection.session)
         browser = PeerBrowser(session: connection.session, maxPeers: maxNumPeers)
 
         advertiser?.start(serviceType: validatedServiceName, discoveryInfo: discoveryInfo)
         browser?.start(serviceType: validatedServiceName, discoveryInfo: discoveryInfo)
+        
+        
     }
 
     public func stop() {
@@ -124,19 +136,35 @@ public class NearPeer: NearPeerProtocol {
     }
 
     public func onConnecting(_ handler: ConnectionHandler?) {
-        self.connection?.connectedHandler = handler
+        if let connection = self.connection {
+            connection.connectingHandler = handler
+        } else {
+            connectingHandler = handler
+        }
     }
 
     public func onConnected(_ handler: ConnectionHandler?) {
-        self.connection?.connectedHandler = handler
+        if let connection = self.connection {
+            connection.connectedHandler = handler
+        } else {
+            connectedHandler = handler
+        }
     }
 
     public func onDisconnect(_ handler: ConnectionHandler?) {
-        self.connection?.disconnectedHandler = handler
+        if let connection = self.connection {
+            connection.disconnectedHandler = handler
+        } else {
+            disconnectedHandler = handler
+        }
     }
 
     public func onReceived(_ handler: DataReceiveHandler?) {
-        self.connection?.receivedHandler = handler
+        if let connection = self.connection {
+            connection.receivedHandler = handler
+        } else {
+            receivedHandler = handler
+        }
     }
 
     // 全てのPeerに送っている。（個別に送れそうですね！！）
