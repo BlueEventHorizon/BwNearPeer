@@ -17,7 +17,7 @@ class NearPeerWorker: ObservableObject {
 
     @Published var peers: [String] = [String]()
     @Published var peerName: String = ""
-    @Published var recievedText: String = "まだ受信していません"
+    @Published var receivedText: String = "まだ受信していません"
 
     init() {
         nearPeer = NearPeer(maxPeers: 1)
@@ -38,7 +38,7 @@ class NearPeerWorker: ObservableObject {
             self.peerName = peer.displayName
 
             if let decodedText = try? JSONDecoder().decode(String.self, from: data) {
-                self.recievedText = decodedText
+                self.receivedText = decodedText
             } else {
                 log.error("decode失敗")
             }

@@ -50,7 +50,7 @@ struct ContentView: View {
                         .bold()
                         .font(.footnote)
 
-                    Text(nearPeerWorker.recievedText)
+                    Text(nearPeerWorker.receivedText)
                         .foregroundColor(.blue)
                         .font(.body)
                         .lineLimit(10)
