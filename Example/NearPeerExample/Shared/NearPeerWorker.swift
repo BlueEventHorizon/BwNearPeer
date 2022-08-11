@@ -29,7 +29,7 @@ class NearPeerWorker: ObservableObject {
             self.peers.append(peer.displayName)
         }
 
-        nearPeer.onRecieved { peer, data in
+        nearPeer.onReceived { peer, data in
             guard let data = data else {
                 log.error("データがありません")
                 return
