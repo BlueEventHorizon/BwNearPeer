@@ -60,7 +60,6 @@
 		528BEB2D26872321008DB3C2 /* Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		528BEB3126872321008DB3C2 /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
 		528BEB3326872321008DB3C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		52A06B4A27C7F0F500AD9385 /* BwNearPeer */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = BwNearPeer; path = ../..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,7 +99,6 @@
 		528BEB0526872320008DB3C2 = {
 			isa = PBXGroup;
 			children = (
-				52A06B4A27C7F0F500AD9385 /* BwNearPeer */,
 				528BEB0A26872320008DB3C2 /* Shared */,
 				528BEB1426872321008DB3C2 /* iOS */,
 				528BEB1B26872321008DB3C2 /* macOS */,
