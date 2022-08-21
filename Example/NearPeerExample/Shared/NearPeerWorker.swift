@@ -13,7 +13,7 @@ class NearPeerWorker: ObservableObject {
     let nearPeer: NearPeer
     var counter: Int = 0
 
-    let discoveryInfo: [NearPeerDiscoveryInfoKey: String] = [.identifier: Bundle.main.bundleIdentifier ?? "NearPeerExample", .passcode: "0129"]
+    let discoveryInfo: [NearPeerDiscoveryInfoKey: String] = [.identifier: "com.beowulf-tech.sirudoor.discovery.name", .passcode: "4989"]
 
     @Published var peers: [String] = [String]()
     @Published var peerName: String = ""
