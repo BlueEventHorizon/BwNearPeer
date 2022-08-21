@@ -33,7 +33,7 @@ class PeerBrowser: NSObject, MCNearbyServiceBrowserDelegate {
         browser?.stopBrowsingForPeers()
     }
 
-    private func isMutchDiscoveryInfo(_ info: [String: String]?) -> Bool {
+    private func isMatchDiscoveryInfo(_ info: [String: String]?) -> Bool {
         guard let discoveryInfo = discoveryInfo else {
             // discoveryInfoが定義されていない場合は、なんでも受け入れる
             return true
@@ -61,7 +61,7 @@ class PeerBrowser: NSObject, MCNearbyServiceBrowserDelegate {
     // ------------------------------------------------------------------------------------------
 
     func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String: String]?) {
-        guard isMutchDiscoveryInfo(info) else {
+        guard isMatchDiscoveryInfo(info) else {
             return
         }
 
