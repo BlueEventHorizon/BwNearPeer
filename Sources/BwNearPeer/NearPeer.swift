@@ -113,8 +113,6 @@ public class NearPeer: NearPeerProtocol {
 
         advertiser?.start(serviceType: validatedServiceName, discoveryInfo: discoveryInfo)
         browser?.start(serviceType: validatedServiceName, discoveryInfo: discoveryInfo)
-        
-        
     }
 
     public func stop() {
