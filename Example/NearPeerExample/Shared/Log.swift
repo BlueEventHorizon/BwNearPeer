@@ -15,5 +15,5 @@ import os
     internal let log = Logger([PrintLogger()], levels: nil)
 #else
     // swiftlint:disable:next file_types_order prefixed_toplevel_constant
-    internal let log = Logger([OsLogger(subsystem: "com.beowulf-tech", category: "Example")], levels: nil)
+    internal let log = Logger([OSLogger(subsystem: "com.beowulf-tech", category: "Example")], levels: nil)
 #endif
