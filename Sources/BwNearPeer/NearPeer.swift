@@ -20,7 +20,7 @@ public protocol NearPeerProtocol {
 
      init(maxPeers: Int)
 
-     func start(serviceName: String, displayName: String, discoveryInfo: [NearPeerDiscoveryInfoKey: String]?)
+     func start(serviceType: String, displayName: String, discoveryInfo: [NearPeerDiscoveryInfoKey: String]?)
 
      func stop()
 
@@ -64,21 +64,33 @@ public class NearPeer: NearPeerProtocol {
     ///                  numbers, and hyphens, Must contain at least one ASCII letter,
     ///                  Must not begin or end with a hyphen,
     /// - Returns: validated service name
-    private func validate(serviceName: String) -> String {
-        guard serviceName.count > 0 else {
+    private func validateServiceType(_ serviceType: String) -> String {
+        guard serviceType.count > 0 else {
             return "."
+        }
+        
+        if serviceType.count > 15 {
+            assertionFailure("serviceTypeは、15文字までです \(serviceType)")
         }
 
         // Must be 1–15 characters long の他は未実装
 
-        return String(serviceName.prefix(15))
+        return serviceType
     }
 
     /// 表示名
     /// - Parameter displayName: The maximum allowable length is 63 bytes in UTF-8 encoding
     /// - Returns: validated displayName
-    private func validate(displayName: String) -> String {
-        return String(displayName.prefix(63))
+    private func validateDisplayName(_ displayName: String) -> String {
+        if displayName.isEmpty {
+            return "no name"
+        }
+
+        if displayName.count > 63 {
+            assertionFailure("serviceTypeは、63文字までです: \(displayName)")
+        }
+
+        return displayName
     }
 
     // ------------------------------------------------------------------------------------------
@@ -91,13 +103,13 @@ public class NearPeer: NearPeerProtocol {
 
     /// Start peer communication
     /// - Parameters:
-    ///   - serviceName: サービス名
+    ///   - serviceType: サービスタイプ
     ///   - displayName: ローカルピアの表示名
     ///   - discoveryInfo: discoveryInfoパラメータは、ブラウザが見ることができるように広告される文字列キー/値ペアの辞書です。
     ///                    discoveryInfoのコンテンツはBonjour TXTレコード内でアドバタイズされるので、ディスカバリーのパフォーマンスを上げるために辞書を小さくしておく必要があります。
-    public func start(serviceName: String, displayName: String, discoveryInfo: [NearPeerDiscoveryInfoKey: String]? = nil) {
-        let validatedServiceName = validate(serviceName: serviceName)
-        let validatedDisplayName = validate(displayName: displayName)
+    public func start(serviceType: String, displayName: String, discoveryInfo: [NearPeerDiscoveryInfoKey: String]? = nil) {
+        let validatedServiceName = validateServiceType(serviceType)
+        let validatedDisplayName = validateDisplayName(displayName)
 
         self.connection = PeerConnection(displayName: validatedDisplayName)
 
