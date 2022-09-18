@@ -8,6 +8,7 @@
 
 import MultipeerConnectivity
 
+// 文字列を使用するために、ここでenum定義をしておく
 public enum NearPeerDiscoveryInfoKey: String {
     /// Bundle Identifierなどアプリを特定するために使用すると良い
     case identifier
@@ -20,7 +21,7 @@ public protocol NearPeerProtocol {
 
      init(maxPeers: Int)
 
-     func start(serviceType: String, displayName: String, discoveryInfo: [NearPeerDiscoveryInfoKey: String]?)
+     func start(serviceType: String, displayName: String, myDiscoveryInfo: [NearPeerDiscoveryInfoKey: String]?, targetDiscoveryInfo: [NearPeerDiscoveryInfoKey: String]?)
 
      func stop()
 
@@ -107,7 +108,7 @@ public class NearPeer: NearPeerProtocol {
     ///   - displayName: ローカルピアの表示名
     ///   - discoveryInfo: discoveryInfoパラメータは、ブラウザが見ることができるように広告される文字列キー/値ペアの辞書です。
     ///                    discoveryInfoのコンテンツはBonjour TXTレコード内でアドバタイズされるので、ディスカバリーのパフォーマンスを上げるために辞書を小さくしておく必要があります。
-    public func start(serviceType: String, displayName: String, discoveryInfo: [NearPeerDiscoveryInfoKey: String]? = nil) {
+    public func start(serviceType: String, displayName: String, myDiscoveryInfo: [NearPeerDiscoveryInfoKey: String]? = nil, targetDiscoveryInfo: [NearPeerDiscoveryInfoKey: String]? = nil) {
         let validatedServiceName = validateServiceType(serviceType)
         let validatedDisplayName = validateDisplayName(displayName)
 
@@ -123,8 +124,12 @@ public class NearPeer: NearPeerProtocol {
         advertiser = PeerAdvertiser(session: connection.session)
         browser = PeerBrowser(session: connection.session, maxPeers: maxNumPeers)
 
-        advertiser?.start(serviceType: validatedServiceName, discoveryInfo: discoveryInfo)
-        browser?.start(serviceType: validatedServiceName, discoveryInfo: discoveryInfo)
+        advertiser?.start(serviceType: validatedServiceName, discoveryInfo: myDiscoveryInfo)
+        if let targetDiscoveryInfo = targetDiscoveryInfo {
+            browser?.start(serviceType: validatedServiceName, discoveryInfo: targetDiscoveryInfo)
+        } else {
+            browser?.start(serviceType: validatedServiceName, discoveryInfo: myDiscoveryInfo)
+        }
     }
 
     public func stop() {
