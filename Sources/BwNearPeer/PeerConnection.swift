@@ -24,7 +24,9 @@ class PeerConnection: NSObject, MCSessionDelegate {
     init(displayName: String = "unknown") {
 
         self.peerID = MCPeerID(displayName: String(displayName.prefix(63)))
-        self.session = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .none)
+
+        // ⚠️ https://teakun.hatenablog.com/entry/2017/11/29/003903
+        self.session = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .optional)
 
         super.init()
 
