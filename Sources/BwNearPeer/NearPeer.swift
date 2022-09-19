@@ -121,11 +121,12 @@ public class NearPeer: NearPeerProtocol {
         advertiser = PeerAdvertiser(session: connection.session)
         browser = PeerBrowser(session: connection.session, maxPeers: maxNumPeers)
 
-        advertiser?.start(serviceType: validatedServiceName, discoveryInfo: myDiscoveryInfo)
+        if let myDiscoveryInfo = myDiscoveryInfo {
+            advertiser?.start(serviceType: validatedServiceName, discoveryInfo: myDiscoveryInfo)
+        }
+
         if let targetDiscoveryInfo = targetDiscoveryInfo {
             browser?.start(serviceType: validatedServiceName, discoveryInfo: targetDiscoveryInfo)
-        } else {
-            browser?.start(serviceType: validatedServiceName, discoveryInfo: myDiscoveryInfo)
         }
     }
 
