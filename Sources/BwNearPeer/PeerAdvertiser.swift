@@ -60,10 +60,7 @@ class PeerAdvertiser: NSObject, MCNearbyServiceAdvertiserDelegate {
     func resume() {
         dispatch.async {
             guard !self.isAdvertising else { return }
-
-            if self.advertiser == nil, let serviceType = self.serviceType {
-                self.advertiser = MCNearbyServiceAdvertiser(peer: self.session.myPeerID, discoveryInfo: self.infoArray, serviceType: serviceType)
-            }
+            guard self.advertiser != nil else { return }
 
             self.isAdvertising = true
 

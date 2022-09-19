@@ -53,10 +53,7 @@ class PeerBrowser: NSObject, MCNearbyServiceBrowserDelegate {
     func resume() {
         dispatch.async {
             guard !self.isBrowsing else { return }
-
-            if self.browser == nil, let serviceType = self.serviceType {
-                self.browser = MCNearbyServiceBrowser(peer: self.session.myPeerID, serviceType: serviceType)
-            }
+            guard self.browser != nil else { return }
 
             self.browser?.delegate = self
             self.browser?.startBrowsingForPeers()
