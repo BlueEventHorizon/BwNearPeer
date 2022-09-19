@@ -147,7 +147,7 @@ public class NearPeer: NearPeerProtocol {
     }
 
     public func restartAdvertising() {
-        advertiser?.restart()
+        advertiser?.resume()
     }
 
     public func onConnecting(_ handler: ConnectionHandler?) {

@@ -9,8 +9,10 @@
 import MultipeerConnectivity
 
 class PeerAdvertiser: NSObject, MCNearbyServiceAdvertiserDelegate {
-    let session: MCSession
-    var isAdvertising: Bool = false
+    private let session: MCSession
+    private var isAdvertising: Bool = false
+    private var serviceType: String?
+    private var infoArray: [String: String]?
 
     init(session: MCSession) {
         self.session = session
@@ -21,12 +23,14 @@ class PeerAdvertiser: NSObject, MCNearbyServiceAdvertiserDelegate {
     private var advertiser: MCNearbyServiceAdvertiser?
 
     func start(serviceType: String, discoveryInfo: [NearPeerDiscoveryInfoKey: String]? = nil) {
-        guard !isAdvertising else {
-            return
+        if isAdvertising {
+            stop()
         }
 
         isAdvertising = true
-        var infoArray: [String: String]?
+        
+        self.serviceType = serviceType
+        
         if let infos = discoveryInfo {
             infoArray = [String: String]()
             infos.forEach { key, value in
@@ -40,6 +44,14 @@ class PeerAdvertiser: NSObject, MCNearbyServiceAdvertiserDelegate {
     }
 
     func stop() {
+        if isAdvertising {
+            suspend()
+        }
+
+        advertiser = nil
+    }
+
+    func suspend() {
         guard isAdvertising else {
             return
         }
@@ -50,10 +62,16 @@ class PeerAdvertiser: NSObject, MCNearbyServiceAdvertiserDelegate {
         isAdvertising = false
     }
 
-    func restart() {
-        if isAdvertising {
-            stop()
+    func resume() {
+        guard !isAdvertising else {
+            return
         }
+
+        if advertiser == nil, let serviceType = self.serviceType {
+            advertiser = MCNearbyServiceAdvertiser(peer: session.myPeerID, discoveryInfo: infoArray, serviceType: serviceType)
+        }
+
+        isAdvertising = true
 
         advertiser?.delegate = self
         advertiser?.startAdvertisingPeer()
