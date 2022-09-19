@@ -18,27 +18,26 @@ public enum NearPeerDiscoveryInfoKey: String {
 }
 
 public protocol NearPeerProtocol {
+    init(maxPeers: Int)
 
-     init(maxPeers: Int)
+    func start(serviceType: String, displayName: String, myDiscoveryInfo: [NearPeerDiscoveryInfoKey: String]?, targetDiscoveryInfo: [NearPeerDiscoveryInfoKey: String]?)
 
-     func start(serviceType: String, displayName: String, myDiscoveryInfo: [NearPeerDiscoveryInfoKey: String]?, targetDiscoveryInfo: [NearPeerDiscoveryInfoKey: String]?)
-
-     func stop()
+    func stop()
 
     func resume()
 
     func suspend()
 
-     func onConnecting(_ handler: ConnectionHandler?)
+    func onConnecting(_ handler: ConnectionHandler?)
 
-     func onConnected(_ handler: ConnectionHandler?)
+    func onConnected(_ handler: ConnectionHandler?)
 
-     func onDisconnect(_ handler: ConnectionHandler?)
+    func onDisconnect(_ handler: ConnectionHandler?)
 
-     func onReceived(_ handler: DataReceiveHandler?)
+    func onReceived(_ handler: DataReceiveHandler?)
 
     // 全てのPeerに送っている。（個別に送れそうですね！！）
-     func send(_ data: Data)
+    func send(_ data: Data)
 }
 
 public class NearPeer: NearPeerProtocol {
@@ -47,7 +46,7 @@ public class NearPeer: NearPeerProtocol {
     private var connection: PeerConnection?
     private var advertiser: PeerAdvertiser?
     private var browser: PeerBrowser?
-    
+
     private var connectingHandler: ConnectionHandler?
     private var connectedHandler: ConnectionHandler?
     private var disconnectedHandler: ConnectionHandler?
@@ -67,7 +66,7 @@ public class NearPeer: NearPeerProtocol {
         guard serviceType.count > 0 else {
             return "."
         }
-        
+
         if serviceType.count > 15 {
             assertionFailure("serviceTypeは、15文字までです \(serviceType)")
         }
@@ -96,7 +95,7 @@ public class NearPeer: NearPeerProtocol {
     // MARK: - public
     // ------------------------------------------------------------------------------------------
 
-    required public init(maxPeers: Int) {
+    public required init(maxPeers: Int) {
         maxNumPeers = maxPeers
     }
 

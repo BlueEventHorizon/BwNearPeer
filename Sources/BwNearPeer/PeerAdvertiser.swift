@@ -28,9 +28,9 @@ class PeerAdvertiser: NSObject, MCNearbyServiceAdvertiserDelegate {
             guard !self.isAdvertising else { return }
 
             self.isAdvertising = true
-            
+
             self.serviceType = serviceType
-            
+
             if let infos = discoveryInfo {
                 self.infoArray = [String: String]()
                 infos.forEach { key, value in
@@ -52,7 +52,7 @@ class PeerAdvertiser: NSObject, MCNearbyServiceAdvertiserDelegate {
             self.advertiser?.stopAdvertisingPeer()
 
             self.advertiser = nil
-            
+
             self.isAdvertising = false
         }
     }
