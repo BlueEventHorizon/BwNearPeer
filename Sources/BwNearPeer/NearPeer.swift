@@ -25,11 +25,9 @@ public protocol NearPeerProtocol {
 
      func stop()
 
-     func invalidate()
+    func resume()
 
-     func stopAdvertising()
-
-     func restartAdvertising()
+    func suspend()
 
      func onConnecting(_ handler: ConnectionHandler?)
 
@@ -115,7 +113,7 @@ public class NearPeer: NearPeerProtocol {
         self.connection = PeerConnection(displayName: validatedDisplayName)
 
         guard let connection = connection else { return }
-        
+
         self.connection?.connectedHandler = connectingHandler
         self.connection?.connectedHandler = connectedHandler
         self.connection?.disconnectedHandler = disconnectedHandler
@@ -138,16 +136,15 @@ public class NearPeer: NearPeerProtocol {
         connection?.disconnect()
     }
 
-    public func invalidate() {
-        stop()
-    }
-
-    public func stopAdvertising() {
-        advertiser?.stop()
-    }
-
-    public func restartAdvertising() {
+    public func resume() {
         advertiser?.resume()
+        browser?.resume()
+    }
+
+    public func suspend() {
+        advertiser?.suspend()
+        browser?.suspend()
+        connection?.disconnect()
     }
 
     public func onConnecting(_ handler: ConnectionHandler?) {
