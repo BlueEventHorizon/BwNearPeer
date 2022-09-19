@@ -33,7 +33,6 @@ class PeerConnection: NSObject, MCSessionDelegate {
     }
 
     func disconnect() {
-        session.delegate = nil
         session.disconnect()
     }
 

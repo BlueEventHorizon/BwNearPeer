@@ -143,6 +143,7 @@ public class NearPeer: NearPeerProtocol {
     public func suspend() {
         advertiser?.suspend()
         browser?.suspend()
+
         connection?.disconnect()
     }
 
