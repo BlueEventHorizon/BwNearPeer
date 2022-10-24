@@ -13,6 +13,9 @@ class PeerBrowser: NSObject, MCNearbyServiceBrowserDelegate {
     private let maxNumPeers: Int
     private var browser: MCNearbyServiceBrowser?
     private var discoveryInfo: [NearPeerDiscoveryInfoKey: String]?
+    private var isBrowsing: Bool = false
+    private let dispatch = DispatchQueue(label: "com.beowulf-tech.bwtools.BwNearPeer.browser")
+    private var serviceType: String?
 
     init(session: MCSession, maxPeers: Int) {
         self.session = session
@@ -22,15 +25,50 @@ class PeerBrowser: NSObject, MCNearbyServiceBrowserDelegate {
     }
 
     func start(serviceType: String, discoveryInfo: [NearPeerDiscoveryInfoKey: String]?) {
-        browser = MCNearbyServiceBrowser(peer: session.myPeerID, serviceType: serviceType)
-        browser?.delegate = self
-        browser?.startBrowsingForPeers()
-        self.discoveryInfo = discoveryInfo
+        dispatch.async {
+            guard !self.isBrowsing else { return }
+
+            self.serviceType = serviceType
+            self.browser = MCNearbyServiceBrowser(peer: self.session.myPeerID, serviceType: serviceType)
+            self.browser?.delegate = self
+            self.browser?.startBrowsingForPeers()
+            self.discoveryInfo = discoveryInfo
+
+            self.isBrowsing = true
+        }
     }
 
     func stop() {
-        browser?.delegate = nil
-        browser?.stopBrowsingForPeers()
+        dispatch.async {
+            guard self.isBrowsing else { return }
+
+            self.browser?.delegate = nil
+            self.browser?.stopBrowsingForPeers()
+            self.browser = nil
+
+            self.isBrowsing = false
+        }
+    }
+
+    func resume() {
+        dispatch.async {
+            guard !self.isBrowsing else { return }
+            guard self.browser != nil else { return }
+
+            self.browser?.delegate = self
+            self.browser?.startBrowsingForPeers()
+            self.isBrowsing = true
+        }
+    }
+
+    func suspend() {
+        dispatch.async {
+            guard self.isBrowsing else { return }
+
+            self.browser?.delegate = nil
+            self.browser?.stopBrowsingForPeers()
+            self.isBrowsing = false
+        }
     }
 
     private func isMatchDiscoveryInfo(_ info: [String: String]?) -> Bool {
@@ -69,6 +107,6 @@ class PeerBrowser: NSObject, MCNearbyServiceBrowserDelegate {
     }
 
     func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
-        // TODO:  log.debug("lost \(peerID.displayName)")
+        // TODO: log.debug("lost \(peerID.displayName)")
     }
 }

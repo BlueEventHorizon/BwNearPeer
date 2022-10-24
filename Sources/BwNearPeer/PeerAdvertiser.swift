@@ -9,8 +9,11 @@
 import MultipeerConnectivity
 
 class PeerAdvertiser: NSObject, MCNearbyServiceAdvertiserDelegate {
-    let session: MCSession
-    var isAdvertising: Bool = false
+    private let session: MCSession
+    private var isAdvertising: Bool = false
+    private var serviceType: String?
+    private var infoArray: [String: String]?
+    private let dispatch = DispatchQueue(label: "com.beowulf-tech.bwtools.BwNearPeer.advertiser")
 
     init(session: MCSession) {
         self.session = session
@@ -21,42 +24,60 @@ class PeerAdvertiser: NSObject, MCNearbyServiceAdvertiserDelegate {
     private var advertiser: MCNearbyServiceAdvertiser?
 
     func start(serviceType: String, discoveryInfo: [NearPeerDiscoveryInfoKey: String]? = nil) {
-        guard !isAdvertising else {
-            return
-        }
+        dispatch.async {
+            guard !self.isAdvertising else { return }
 
-        isAdvertising = true
-        var infoArray: [String: String]?
-        if let infos = discoveryInfo {
-            infoArray = [String: String]()
-            infos.forEach { key, value in
-                infoArray?[key.rawValue] = value
+            self.isAdvertising = true
+
+            self.serviceType = serviceType
+
+            if let infos = discoveryInfo {
+                self.infoArray = [String: String]()
+                infos.forEach { key, value in
+                    self.infoArray?[key.rawValue] = value
+                }
             }
-        }
 
-        advertiser = MCNearbyServiceAdvertiser(peer: session.myPeerID, discoveryInfo: infoArray, serviceType: serviceType)
-        advertiser?.delegate = self
-        advertiser?.startAdvertisingPeer()
+            self.advertiser = MCNearbyServiceAdvertiser(peer: self.session.myPeerID, discoveryInfo: self.infoArray, serviceType: serviceType)
+            self.advertiser?.delegate = self
+            self.advertiser?.startAdvertisingPeer()
+        }
     }
 
     func stop() {
-        guard isAdvertising else {
-            return
+        dispatch.async {
+            guard self.isAdvertising else { return }
+
+            self.advertiser?.delegate = nil
+            self.advertiser?.stopAdvertisingPeer()
+
+            self.advertiser = nil
+
+            self.isAdvertising = false
         }
-
-        advertiser?.delegate = nil
-        advertiser?.stopAdvertisingPeer()
-
-        isAdvertising = false
     }
 
-    func restart() {
-        if isAdvertising {
-            stop()
-        }
+    func resume() {
+        dispatch.async {
+            guard !self.isAdvertising else { return }
+            guard self.advertiser != nil else { return }
 
-        advertiser?.delegate = self
-        advertiser?.startAdvertisingPeer()
+            self.isAdvertising = true
+
+            self.advertiser?.delegate = self
+            self.advertiser?.startAdvertisingPeer()
+        }
+    }
+
+    func suspend() {
+        dispatch.async {
+            guard self.isAdvertising else { return }
+
+            self.advertiser?.delegate = nil
+            self.advertiser?.stopAdvertisingPeer()
+
+            self.isAdvertising = false
+        }
     }
 
     // ------------------------------------------------------------------------------------------

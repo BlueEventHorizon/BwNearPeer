@@ -22,8 +22,9 @@ class PeerConnection: NSObject, MCSessionDelegate {
     var receivedHandler: DataReceiveHandler?
 
     init(displayName: String = "unknown") {
-
         self.peerID = MCPeerID(displayName: String(displayName.prefix(63)))
+
+        // ⚠️ https://teakun.hatenablog.com/entry/2017/11/29/003903
         self.session = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .none)
 
         super.init()
@@ -32,7 +33,6 @@ class PeerConnection: NSObject, MCSessionDelegate {
     }
 
     func disconnect() {
-        session.delegate = nil
         session.disconnect()
     }
 
@@ -43,7 +43,7 @@ class PeerConnection: NSObject, MCSessionDelegate {
     /// 近くのPeerから NSData オブジェクトを受信したことを示す。必須。
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         DispatchQueue.main.async {
-            self.receivedHandler?( peerID, data)
+            self.receivedHandler?(peerID, data)
         }
     }
 
@@ -65,24 +65,24 @@ class PeerConnection: NSObject, MCSessionDelegate {
     /// 近くのピアの状態が変化したときに呼び出されます。必須。
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         switch state {
-            case .connecting:
+        case .connecting:
             DispatchQueue.main.async {
                 self.connectingHandler?(peerID)
             }
 
-            case .connected:
-                // called after certificated
+        case .connected:
+            // called after certificated
             DispatchQueue.main.async {
                 self.connectedHandler?(peerID)
             }
 
-            case .notConnected:
+        case .notConnected:
             DispatchQueue.main.async {
                 self.disconnectedHandler?(peerID)
             }
 
-            default:
-                break
+        default:
+            break
         }
         self.state = state
     }

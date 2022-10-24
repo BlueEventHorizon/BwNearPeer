@@ -8,6 +8,7 @@
 
 import MultipeerConnectivity
 
+// 文字列を使用するために、ここでenum定義をしておく
 public enum NearPeerDiscoveryInfoKey: String {
     /// Bundle Identifierなどアプリを特定するために使用すると良い
     case identifier
@@ -17,29 +18,26 @@ public enum NearPeerDiscoveryInfoKey: String {
 }
 
 public protocol NearPeerProtocol {
+    init(maxPeers: Int)
 
-     init(maxPeers: Int)
+    func start(serviceType: String, displayName: String, myDiscoveryInfo: [NearPeerDiscoveryInfoKey: String]?, targetDiscoveryInfo: [NearPeerDiscoveryInfoKey: String]?)
 
-     func start(serviceName: String, displayName: String, discoveryInfo: [NearPeerDiscoveryInfoKey: String]?)
+    func stop()
 
-     func stop()
+    func resume()
 
-     func invalidate()
+    func suspend()
 
-     func stopAdvertising()
+    func onConnecting(_ handler: ConnectionHandler?)
 
-     func restartAdvertising()
+    func onConnected(_ handler: ConnectionHandler?)
 
-     func onConnecting(_ handler: ConnectionHandler?)
+    func onDisconnect(_ handler: ConnectionHandler?)
 
-     func onConnected(_ handler: ConnectionHandler?)
-
-     func onDisconnect(_ handler: ConnectionHandler?)
-
-     func onReceived(_ handler: DataReceiveHandler?)
+    func onReceived(_ handler: DataReceiveHandler?)
 
     // 全てのPeerに送っている。（個別に送れそうですね！！）
-     func send(_ data: Data)
+    func send(_ data: Data)
 }
 
 public class NearPeer: NearPeerProtocol {
@@ -48,7 +46,7 @@ public class NearPeer: NearPeerProtocol {
     private var connection: PeerConnection?
     private var advertiser: PeerAdvertiser?
     private var browser: PeerBrowser?
-    
+
     private var connectingHandler: ConnectionHandler?
     private var connectedHandler: ConnectionHandler?
     private var disconnectedHandler: ConnectionHandler?
@@ -64,45 +62,57 @@ public class NearPeer: NearPeerProtocol {
     ///                  numbers, and hyphens, Must contain at least one ASCII letter,
     ///                  Must not begin or end with a hyphen,
     /// - Returns: validated service name
-    private func validate(serviceName: String) -> String {
-        guard serviceName.count > 0 else {
+    private func validateServiceType(_ serviceType: String) -> String {
+        guard serviceType.count > 0 else {
             return "."
+        }
+
+        if serviceType.count > 15 {
+            assertionFailure("serviceTypeは、15文字までです \(serviceType)")
         }
 
         // Must be 1–15 characters long の他は未実装
 
-        return String(serviceName.prefix(15))
+        return serviceType
     }
 
     /// 表示名
     /// - Parameter displayName: The maximum allowable length is 63 bytes in UTF-8 encoding
     /// - Returns: validated displayName
-    private func validate(displayName: String) -> String {
-        return String(displayName.prefix(63))
+    private func validateDisplayName(_ displayName: String) -> String {
+        if displayName.isEmpty {
+            return "no name"
+        }
+
+        if displayName.count > 63 {
+            assertionFailure("serviceTypeは、63文字までです: \(displayName)")
+        }
+
+        return displayName
     }
 
     // ------------------------------------------------------------------------------------------
     // MARK: - public
     // ------------------------------------------------------------------------------------------
 
-    required public init(maxPeers: Int) {
+    public required init(maxPeers: Int) {
         maxNumPeers = maxPeers
     }
 
     /// Start peer communication
     /// - Parameters:
-    ///   - serviceName: サービス名
+    ///   - serviceType: サービスタイプ
     ///   - displayName: ローカルピアの表示名
     ///   - discoveryInfo: discoveryInfoパラメータは、ブラウザが見ることができるように広告される文字列キー/値ペアの辞書です。
     ///                    discoveryInfoのコンテンツはBonjour TXTレコード内でアドバタイズされるので、ディスカバリーのパフォーマンスを上げるために辞書を小さくしておく必要があります。
-    public func start(serviceName: String, displayName: String, discoveryInfo: [NearPeerDiscoveryInfoKey: String]? = nil) {
-        let validatedServiceName = validate(serviceName: serviceName)
-        let validatedDisplayName = validate(displayName: displayName)
+    public func start(serviceType: String, displayName: String, myDiscoveryInfo: [NearPeerDiscoveryInfoKey: String]? = nil, targetDiscoveryInfo: [NearPeerDiscoveryInfoKey: String]? = nil) {
+        let validatedServiceName = validateServiceType(serviceType)
+        let validatedDisplayName = validateDisplayName(displayName)
 
         self.connection = PeerConnection(displayName: validatedDisplayName)
 
         guard let connection = connection else { return }
-        
+
         self.connection?.connectedHandler = connectingHandler
         self.connection?.connectedHandler = connectedHandler
         self.connection?.disconnectedHandler = disconnectedHandler
@@ -111,8 +121,13 @@ public class NearPeer: NearPeerProtocol {
         advertiser = PeerAdvertiser(session: connection.session)
         browser = PeerBrowser(session: connection.session, maxPeers: maxNumPeers)
 
-        advertiser?.start(serviceType: validatedServiceName, discoveryInfo: discoveryInfo)
-        browser?.start(serviceType: validatedServiceName, discoveryInfo: discoveryInfo)
+        if let myDiscoveryInfo = myDiscoveryInfo {
+            advertiser?.start(serviceType: validatedServiceName, discoveryInfo: myDiscoveryInfo)
+        }
+
+        if let targetDiscoveryInfo = targetDiscoveryInfo {
+            browser?.start(serviceType: validatedServiceName, discoveryInfo: targetDiscoveryInfo)
+        }
     }
 
     public func stop() {
@@ -121,16 +136,16 @@ public class NearPeer: NearPeerProtocol {
         connection?.disconnect()
     }
 
-    public func invalidate() {
-        stop()
+    public func resume() {
+        advertiser?.resume()
+        browser?.resume()
     }
 
-    public func stopAdvertising() {
-        advertiser?.stop()
-    }
+    public func suspend() {
+        advertiser?.suspend()
+        browser?.suspend()
 
-    public func restartAdvertising() {
-        advertiser?.restart()
+        connection?.disconnect()
     }
 
     public func onConnecting(_ handler: ConnectionHandler?) {
