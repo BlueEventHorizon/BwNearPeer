@@ -22,7 +22,7 @@ class NearPeerWorker: ObservableObject {
     init() {
         nearPeer = NearPeer(maxPeers: 1)
 
-        nearPeer.start(serviceName: "nearpeer", displayName: UIDevice.current.name, discoveryInfo: discoveryInfo)
+        nearPeer.start(serviceType: "nearpeer", displayName: UIDevice.current.name, myDiscoveryInfo: discoveryInfo, targetDiscoveryInfo: discoveryInfo)
         nearPeer.onConnected { peer in
 
             // TODO: 切断された時の処理を追加すること
