@@ -101,7 +101,7 @@ public class NearPeer: NearPeerProtocol {
 
     /// Start peer communication
     /// - Parameters:
-    ///   - serviceType: サービスタイプ
+    ///   - serviceType: サービスタイプ：InfoPlistに記述が必要
     ///   - displayName: ローカルピアの表示名
     ///   - discoveryInfo: discoveryInfoパラメータは、ブラウザが見ることができるように広告される文字列キー/値ペアの辞書です。
     ///                    discoveryInfoのコンテンツはBonjour TXTレコード内でアドバタイズされるので、ディスカバリーのパフォーマンスを上げるために辞書を小さくしておく必要があります。
