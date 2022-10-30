@@ -1,0 +1,660 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		76A958F8290A897100AFE6CF /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A958F7290A897100AFE6CF /* AppState.swift */; };
+		76AF3EAD290A4A4E00C40C89 /* InRoomLogApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AF3EAC290A4A4E00C40C89 /* InRoomLogApp.swift */; };
+		76AF3EAF290A4A4E00C40C89 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AF3EAE290A4A4E00C40C89 /* ContentView.swift */; };
+		76AF3EB1290A4A4E00C40C89 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76AF3EB0290A4A4E00C40C89 /* Assets.xcassets */; };
+		76AF3EB5290A4A4E00C40C89 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76AF3EB4290A4A4E00C40C89 /* Preview Assets.xcassets */; };
+		76AF3EBF290A4A4F00C40C89 /* InRoomLogAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AF3EBE290A4A4F00C40C89 /* InRoomLogAppTests.swift */; };
+		76AF3EC9290A4A4F00C40C89 /* InRoomLogAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AF3EC8290A4A4F00C40C89 /* InRoomLogAppUITests.swift */; };
+		76AF3ECB290A4A4F00C40C89 /* InRoomLogAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AF3ECA290A4A4F00C40C89 /* InRoomLogAppUITestsLaunchTests.swift */; };
+		76C934EA290E18AA00414D8F /* InRoomLogger in Frameworks */ = {isa = PBXBuildFile; productRef = 76C934E9290E18AA00414D8F /* InRoomLogger */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		76AF3EBB290A4A4F00C40C89 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 76AF3EA1290A4A4E00C40C89 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 76AF3EA8290A4A4E00C40C89;
+			remoteInfo = InRoomLogApp;
+		};
+		76AF3EC5290A4A4F00C40C89 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 76AF3EA1290A4A4E00C40C89 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 76AF3EA8290A4A4E00C40C89;
+			remoteInfo = InRoomLogApp;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		76A958EF290A816400AFE6CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		76A958F7290A897100AFE6CF /* AppState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		76AF3EA9290A4A4E00C40C89 /* InRoomLogApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InRoomLogApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		76AF3EAC290A4A4E00C40C89 /* InRoomLogApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InRoomLogApp.swift; sourceTree = "<group>"; };
+		76AF3EAE290A4A4E00C40C89 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		76AF3EB0290A4A4E00C40C89 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		76AF3EB2290A4A4E00C40C89 /* InRoomLogApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = InRoomLogApp.entitlements; sourceTree = "<group>"; };
+		76AF3EB4290A4A4E00C40C89 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		76AF3EBA290A4A4F00C40C89 /* InRoomLogAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InRoomLogAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		76AF3EBE290A4A4F00C40C89 /* InRoomLogAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InRoomLogAppTests.swift; sourceTree = "<group>"; };
+		76AF3EC4290A4A4F00C40C89 /* InRoomLogAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InRoomLogAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		76AF3EC8290A4A4F00C40C89 /* InRoomLogAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InRoomLogAppUITests.swift; sourceTree = "<group>"; };
+		76AF3ECA290A4A4F00C40C89 /* InRoomLogAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InRoomLogAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		76AF3EA6290A4A4E00C40C89 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76C934EA290E18AA00414D8F /* InRoomLogger in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76AF3EB7290A4A4F00C40C89 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76AF3EC1290A4A4F00C40C89 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		76A958FB290A8DD400AFE6CF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		76AF3EA0290A4A4E00C40C89 = {
+			isa = PBXGroup;
+			children = (
+				76AF3EAB290A4A4E00C40C89 /* InRoomLogApp */,
+				76AF3EBD290A4A4F00C40C89 /* InRoomLogAppTests */,
+				76AF3EC7290A4A4F00C40C89 /* InRoomLogAppUITests */,
+				76AF3EAA290A4A4E00C40C89 /* Products */,
+				76A958FB290A8DD400AFE6CF /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		76AF3EAA290A4A4E00C40C89 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				76AF3EA9290A4A4E00C40C89 /* InRoomLogApp.app */,
+				76AF3EBA290A4A4F00C40C89 /* InRoomLogAppTests.xctest */,
+				76AF3EC4290A4A4F00C40C89 /* InRoomLogAppUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		76AF3EAB290A4A4E00C40C89 /* InRoomLogApp */ = {
+			isa = PBXGroup;
+			children = (
+				76A958EF290A816400AFE6CF /* Info.plist */,
+				76AF3EAC290A4A4E00C40C89 /* InRoomLogApp.swift */,
+				76AF3EAE290A4A4E00C40C89 /* ContentView.swift */,
+				76A958F7290A897100AFE6CF /* AppState.swift */,
+				76AF3EB0290A4A4E00C40C89 /* Assets.xcassets */,
+				76AF3EB2290A4A4E00C40C89 /* InRoomLogApp.entitlements */,
+				76AF3EB3290A4A4E00C40C89 /* Preview Content */,
+			);
+			path = InRoomLogApp;
+			sourceTree = "<group>";
+		};
+		76AF3EB3290A4A4E00C40C89 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				76AF3EB4290A4A4E00C40C89 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		76AF3EBD290A4A4F00C40C89 /* InRoomLogAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				76AF3EBE290A4A4F00C40C89 /* InRoomLogAppTests.swift */,
+			);
+			path = InRoomLogAppTests;
+			sourceTree = "<group>";
+		};
+		76AF3EC7290A4A4F00C40C89 /* InRoomLogAppUITests */ = {
+			isa = PBXGroup;
+			children = (
+				76AF3EC8290A4A4F00C40C89 /* InRoomLogAppUITests.swift */,
+				76AF3ECA290A4A4F00C40C89 /* InRoomLogAppUITestsLaunchTests.swift */,
+			);
+			path = InRoomLogAppUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		76AF3EA8290A4A4E00C40C89 /* InRoomLogApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 76AF3ECE290A4A4F00C40C89 /* Build configuration list for PBXNativeTarget "InRoomLogApp" */;
+			buildPhases = (
+				76AF3EA5290A4A4E00C40C89 /* Sources */,
+				76AF3EA6290A4A4E00C40C89 /* Frameworks */,
+				76AF3EA7290A4A4E00C40C89 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = InRoomLogApp;
+			packageProductDependencies = (
+				76C934E9290E18AA00414D8F /* InRoomLogger */,
+			);
+			productName = InRoomLogApp;
+			productReference = 76AF3EA9290A4A4E00C40C89 /* InRoomLogApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		76AF3EB9290A4A4F00C40C89 /* InRoomLogAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 76AF3ED1290A4A4F00C40C89 /* Build configuration list for PBXNativeTarget "InRoomLogAppTests" */;
+			buildPhases = (
+				76AF3EB6290A4A4F00C40C89 /* Sources */,
+				76AF3EB7290A4A4F00C40C89 /* Frameworks */,
+				76AF3EB8290A4A4F00C40C89 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				76AF3EBC290A4A4F00C40C89 /* PBXTargetDependency */,
+			);
+			name = InRoomLogAppTests;
+			productName = InRoomLogAppTests;
+			productReference = 76AF3EBA290A4A4F00C40C89 /* InRoomLogAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		76AF3EC3290A4A4F00C40C89 /* InRoomLogAppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 76AF3ED4290A4A4F00C40C89 /* Build configuration list for PBXNativeTarget "InRoomLogAppUITests" */;
+			buildPhases = (
+				76AF3EC0290A4A4F00C40C89 /* Sources */,
+				76AF3EC1290A4A4F00C40C89 /* Frameworks */,
+				76AF3EC2290A4A4F00C40C89 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				76AF3EC6290A4A4F00C40C89 /* PBXTargetDependency */,
+			);
+			name = InRoomLogAppUITests;
+			productName = InRoomLogAppUITests;
+			productReference = 76AF3EC4290A4A4F00C40C89 /* InRoomLogAppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		76AF3EA1290A4A4E00C40C89 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1400;
+				LastUpgradeCheck = 1400;
+				TargetAttributes = {
+					76AF3EA8290A4A4E00C40C89 = {
+						CreatedOnToolsVersion = 14.0.1;
+					};
+					76AF3EB9290A4A4F00C40C89 = {
+						CreatedOnToolsVersion = 14.0.1;
+						TestTargetID = 76AF3EA8290A4A4E00C40C89;
+					};
+					76AF3EC3290A4A4F00C40C89 = {
+						CreatedOnToolsVersion = 14.0.1;
+						TestTargetID = 76AF3EA8290A4A4E00C40C89;
+					};
+				};
+			};
+			buildConfigurationList = 76AF3EA4290A4A4E00C40C89 /* Build configuration list for PBXProject "InRoomLogApp" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 76AF3EA0290A4A4E00C40C89;
+			packageReferences = (
+				76C934E8290E18AA00414D8F /* XCRemoteSwiftPackageReference "InRoomLogger" */,
+			);
+			productRefGroup = 76AF3EAA290A4A4E00C40C89 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				76AF3EA8290A4A4E00C40C89 /* InRoomLogApp */,
+				76AF3EB9290A4A4F00C40C89 /* InRoomLogAppTests */,
+				76AF3EC3290A4A4F00C40C89 /* InRoomLogAppUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		76AF3EA7290A4A4E00C40C89 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76AF3EB5290A4A4E00C40C89 /* Preview Assets.xcassets in Resources */,
+				76AF3EB1290A4A4E00C40C89 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76AF3EB8290A4A4F00C40C89 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76AF3EC2290A4A4F00C40C89 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		76AF3EA5290A4A4E00C40C89 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76A958F8290A897100AFE6CF /* AppState.swift in Sources */,
+				76AF3EAF290A4A4E00C40C89 /* ContentView.swift in Sources */,
+				76AF3EAD290A4A4E00C40C89 /* InRoomLogApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76AF3EB6290A4A4F00C40C89 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76AF3EBF290A4A4F00C40C89 /* InRoomLogAppTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76AF3EC0290A4A4F00C40C89 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76AF3EC9290A4A4F00C40C89 /* InRoomLogAppUITests.swift in Sources */,
+				76AF3ECB290A4A4F00C40C89 /* InRoomLogAppUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		76AF3EBC290A4A4F00C40C89 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 76AF3EA8290A4A4E00C40C89 /* InRoomLogApp */;
+			targetProxy = 76AF3EBB290A4A4F00C40C89 /* PBXContainerItemProxy */;
+		};
+		76AF3EC6290A4A4F00C40C89 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 76AF3EA8290A4A4E00C40C89 /* InRoomLogApp */;
+			targetProxy = 76AF3EC5290A4A4F00C40C89 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		76AF3ECC290A4A4F00C40C89 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		76AF3ECD290A4A4F00C40C89 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		76AF3ECF290A4A4F00C40C89 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = InRoomLogApp/InRoomLogApp.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"InRoomLogApp/Preview Content\"";
+				DEVELOPMENT_TEAM = D6A5KP29BP;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = InRoomLogApp/Info.plist;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.beowulf-tech.InRoomLogApp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		76AF3ED0290A4A4F00C40C89 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = InRoomLogApp/InRoomLogApp.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"InRoomLogApp/Preview Content\"";
+				DEVELOPMENT_TEAM = D6A5KP29BP;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = InRoomLogApp/Info.plist;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.beowulf-tech.InRoomLogApp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		76AF3ED2290A4A4F00C40C89 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = D6A5KP29BP;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.beowulf-tech.InRoomLogAppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/InRoomLogApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/InRoomLogApp";
+			};
+			name = Debug;
+		};
+		76AF3ED3290A4A4F00C40C89 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = D6A5KP29BP;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.beowulf-tech.InRoomLogAppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/InRoomLogApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/InRoomLogApp";
+			};
+			name = Release;
+		};
+		76AF3ED5290A4A4F00C40C89 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = D6A5KP29BP;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.beowulf-tech.InRoomLogAppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = InRoomLogApp;
+			};
+			name = Debug;
+		};
+		76AF3ED6290A4A4F00C40C89 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = D6A5KP29BP;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.beowulf-tech.InRoomLogAppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = InRoomLogApp;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		76AF3EA4290A4A4E00C40C89 /* Build configuration list for PBXProject "InRoomLogApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				76AF3ECC290A4A4F00C40C89 /* Debug */,
+				76AF3ECD290A4A4F00C40C89 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		76AF3ECE290A4A4F00C40C89 /* Build configuration list for PBXNativeTarget "InRoomLogApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				76AF3ECF290A4A4F00C40C89 /* Debug */,
+				76AF3ED0290A4A4F00C40C89 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		76AF3ED1290A4A4F00C40C89 /* Build configuration list for PBXNativeTarget "InRoomLogAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				76AF3ED2290A4A4F00C40C89 /* Debug */,
+				76AF3ED3290A4A4F00C40C89 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		76AF3ED4290A4A4F00C40C89 /* Build configuration list for PBXNativeTarget "InRoomLogAppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				76AF3ED5290A4A4F00C40C89 /* Debug */,
+				76AF3ED6290A4A4F00C40C89 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		76C934E8290E18AA00414D8F /* XCRemoteSwiftPackageReference "InRoomLogger" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/BlueEventHorizon/InRoomLogger";
+			requirement = {
+				branch = develop;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		76C934E9290E18AA00414D8F /* InRoomLogger */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 76C934E8290E18AA00414D8F /* XCRemoteSwiftPackageReference "InRoomLogger" */;
+			productName = InRoomLogger;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 76AF3EA1290A4A4E00C40C89 /* Project object */;
+}
