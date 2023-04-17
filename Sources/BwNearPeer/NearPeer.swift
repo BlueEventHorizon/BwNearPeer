@@ -68,7 +68,9 @@ public class NearPeer: NearPeerProtocol {
         }
 
         if serviceType.count > 15 {
-            assertionFailure("serviceTypeは、15文字までです \(serviceType)")
+            // assertionFailure("serviceTypeは、15文字までです \(serviceType)")
+            // print("serviceTypeは、15文字までです \(serviceType)")
+            // return String(serviceType.prefix(15))
         }
 
         // Must be 1–15 characters long の他は未実装
@@ -85,7 +87,9 @@ public class NearPeer: NearPeerProtocol {
         }
 
         if displayName.count > 63 {
-            assertionFailure("serviceTypeは、63文字までです: \(displayName)")
+            // assertionFailure("serviceTypeは、63文字までです: \(displayName)")
+            // print("serviceTypeは、63文字までです: \(displayName)")
+            // return String(displayName.prefix(63))
         }
 
         return displayName
@@ -101,7 +105,7 @@ public class NearPeer: NearPeerProtocol {
 
     /// Start peer communication
     /// - Parameters:
-    ///   - serviceType: サービスタイプ
+    ///   - serviceType: サービスタイプ：InfoPlistに記述が必要
     ///   - displayName: ローカルピアの表示名
     ///   - discoveryInfo: discoveryInfoパラメータは、ブラウザが見ることができるように広告される文字列キー/値ペアの辞書です。
     ///                    discoveryInfoのコンテンツはBonjour TXTレコード内でアドバタイズされるので、ディスカバリーのパフォーマンスを上げるために辞書を小さくしておく必要があります。
