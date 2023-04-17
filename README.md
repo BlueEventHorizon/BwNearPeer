@@ -2,7 +2,7 @@
 
 [![Release](https://img.shields.io/github/v/release/BlueEventHorizon/BwNearPeer)](https://github.com/BlueEventHorizon/BwNearPeer/releases/latest)
 [![License](https://img.shields.io/github/license/BlueEventHorizon/BwNearPeer)](https://github.com/BlueEventHorizon/BwNearPeer/blob/main/LICENSE)
-[![Twitter](https://img.shields.io/twitter/follow/beowulf_tech?style=social)](https://twitter.com/beowulf_tech)
+[![Twitter](https://img.shields.io/twitter/follow/k2_moons?style=social)](https://twitter.com/k2_moons)
 
 BwNearPeer is a library that makes the MultipeerConnectivity framework easy to use. 
 
