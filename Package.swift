@@ -1,12 +1,13 @@
 // swift-tools-version: 5.9
 // The swift-tools-version declares the minimum version of Swift required to build this package.
+// 'v11' is deprecated: iOS 12.0 is the oldest supported version
 
 import PackageDescription
 
 let package = Package(
     name: "BwNearPeer",
     platforms: [
-        .iOS(.v11),
+        .iOS(.v12),
         .macOS(.v10_13),
     ],
     products: [
