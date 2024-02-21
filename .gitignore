@@ -73,6 +73,13 @@ Package.resolved
 #################################
 
 # ==============
+# Generated
+#（R.swiftやSwiftGenなどの出力をGeneratedにした場合）
+# ==============
+
+**/Generated/*.swift
+
+# ==============
 # Carthage
 # ==============
 
@@ -83,18 +90,6 @@ Carthage/
 # ==============
 
 Pods/
-
-# ==============
-# RSwift
-# ==============
-
-R.generated.swift
-
-# ==============
-# DIKit
-# ==============
-
-AppResolver.generated.swift
 
 # ==============
 # Bundle
