@@ -7,9 +7,44 @@
 //
 
 import MultipeerConnectivity
+import Foundation
 
-// 文字列を使用するために、ここでenum定義をしておく
-public enum NearPeerDiscoveryInfoKey: String {
+// MARK: - Error Types
+
+/// NearPeerで発生する可能性のあるエラー
+public enum NearPeerError: Error, LocalizedError {
+    case invalidServiceType(String)
+    case invalidDisplayName(String)
+    case sessionNotFound
+    case peerNotConnected
+    case encodingFailed
+    case sendingFailed(Error)
+    case startupFailed(Error)
+    
+    public var errorDescription: String? {
+        switch self {
+        case .invalidServiceType(let serviceType):
+            return "無効なサービスタイプです: \(serviceType)"
+        case .invalidDisplayName(let displayName):
+            return "無効な表示名です: \(displayName)"
+        case .sessionNotFound:
+            return "セッションが見つかりません"
+        case .peerNotConnected:
+            return "ピアが接続されていません"
+        case .encodingFailed:
+            return "データのエンコードに失敗しました"
+        case .sendingFailed(let error):
+            return "データの送信に失敗しました: \(error.localizedDescription)"
+        case .startupFailed(let error):
+            return "サービスの開始に失敗しました: \(error.localizedDescription)"
+        }
+    }
+}
+
+// MARK: - Discovery Info
+
+/// 文字列を使用するために、ここでenum定義をしておく
+public enum NearPeerDiscoveryInfoKey: String, CaseIterable {
     /// Bundle Identifierなどアプリを特定するために使用すると良い
     case identifier
 
@@ -17,32 +52,265 @@ public enum NearPeerDiscoveryInfoKey: String {
     case passcode
 }
 
-public protocol NearPeerProtocol {
+// MARK: - Event Types
+
+/// ピア接続に関するイベント
+public struct PeerConnectionEvent {
+    public let peerID: MCPeerID
+    public let state: MCSessionState
+    public let timestamp: Date
+    
+    public init(peerID: MCPeerID, state: MCSessionState) {
+        self.peerID = peerID
+        self.state = state
+        self.timestamp = Date()
+    }
+}
+
+/// データ受信イベント
+public struct DataReceivedEvent {
+    public let peerID: MCPeerID
+    public let data: Data
+    public let timestamp: Date
+    
+    public init(peerID: MCPeerID, data: Data) {
+        self.peerID = peerID
+        self.data = data
+        self.timestamp = Date()
+    }
+}
+
+// MARK: - Modern Protocol
+
+/// モダンなSwift Concurrency対応のNearPeerプロトコル
+public protocol NearPeerProtocol: Actor {
+    init(maxPeers: Int)
+    
+    func start(
+        serviceType: String,
+        displayName: String,
+        myDiscoveryInfo: [NearPeerDiscoveryInfoKey: String]?,
+        targetDiscoveryInfo: [NearPeerDiscoveryInfoKey: String]?
+    ) async throws
+    
+    func stop() async
+    func resume() async throws
+    func suspend() async
+    
+    func send(_ data: Data) async throws
+    func send<T: Codable>(_ object: T) async throws
+    
+    var connectionEvents: AsyncStream<PeerConnectionEvent> { get }
+    var dataReceivedEvents: AsyncStream<DataReceivedEvent> { get }
+    var connectedPeers: [MCPeerID] { get async }
+}
+
+// MARK: - Legacy Protocol (Backward Compatibility)
+
+/// 既存のコードとの互換性を保つためのレガシープロトコル
+public protocol NearPeerLegacyProtocol {
     init(maxPeers: Int)
 
     func start(serviceType: String, displayName: String, myDiscoveryInfo: [NearPeerDiscoveryInfoKey: String]?, targetDiscoveryInfo: [NearPeerDiscoveryInfoKey: String]?)
 
     func stop()
-
     func resume()
-
     func suspend()
 
     func onConnecting(_ handler: ConnectionHandler?)
-
     func onConnected(_ handler: ConnectionHandler?)
-
     func onDisconnect(_ handler: ConnectionHandler?)
-
     func onReceived(_ handler: DataReceiveHandler?)
 
-    // 全てのPeerに送っている。（個別に送れそうですね！！）
     func send(_ data: Data)
 }
 
-public class NearPeer: NearPeerProtocol {
-    private let maxNumPeers: Int
+// MARK: - NearPeer Actor
 
+/// iOS17.6対応のNearPeerクラス（Actor対応）
+@available(iOS 17.0, macOS 14.0, *)
+public actor NearPeer: NearPeerProtocol {
+    private let maxNumPeers: Int
+    private var connection: PeerConnection?
+    private var advertiser: PeerAdvertiser?
+    private var browser: PeerBrowser?
+    
+    // AsyncStreamの継続用
+    private var connectionEventContinuation: AsyncStream<PeerConnectionEvent>.Continuation?
+    private var dataEventContinuation: AsyncStream<DataReceivedEvent>.Continuation?
+    
+    // Public AsyncStreams
+    public let connectionEvents: AsyncStream<PeerConnectionEvent>
+    public let dataReceivedEvents: AsyncStream<DataReceivedEvent>
+    
+    // MARK: - Initialization
+    
+    public init(maxPeers: Int) {
+        self.maxNumPeers = maxPeers
+        
+        // AsyncStreamの初期化
+        (self.connectionEvents, self.connectionEventContinuation) = AsyncStream<PeerConnectionEvent>.makeStream()
+        (self.dataReceivedEvents, self.dataEventContinuation) = AsyncStream<DataReceivedEvent>.makeStream()
+    }
+    
+    deinit {
+        connectionEventContinuation?.finish()
+        dataEventContinuation?.finish()
+    }
+    
+    // MARK: - Validation
+    
+    private func validateServiceType(_ serviceType: String) throws -> String {
+        guard !serviceType.isEmpty else {
+            throw NearPeerError.invalidServiceType("サービスタイプが空です")
+        }
+        
+        guard serviceType.count <= 15 else {
+            throw NearPeerError.invalidServiceType("サービスタイプは15文字以下である必要があります")
+        }
+        
+        // 基本的な文字チェック
+        let allowedCharacters = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "-"))
+        guard serviceType.unicodeScalars.allSatisfy({ allowedCharacters.contains($0) }) else {
+            throw NearPeerError.invalidServiceType("サービスタイプには英数字とハイフンのみ使用できます")
+        }
+        
+        return serviceType
+    }
+    
+    private func validateDisplayName(_ displayName: String) throws -> String {
+        guard !displayName.isEmpty else {
+            throw NearPeerError.invalidDisplayName("表示名が空です")
+        }
+        
+        let maxBytes = 63
+        guard displayName.utf8.count <= maxBytes else {
+            throw NearPeerError.invalidDisplayName("表示名は63バイト以下である必要があります")
+        }
+        
+        return displayName
+    }
+    
+    // MARK: - Public Methods
+    
+    public func start(
+        serviceType: String,
+        displayName: String,
+        myDiscoveryInfo: [NearPeerDiscoveryInfoKey: String]? = nil,
+        targetDiscoveryInfo: [NearPeerDiscoveryInfoKey: String]? = nil
+    ) async throws {
+        let validatedServiceType = try validateServiceType(serviceType)
+        let validatedDisplayName = try validateDisplayName(displayName)
+        
+        // 既存の接続を停止
+        await stop()
+        
+        do {
+            // 新しい接続を作成
+            self.connection = PeerConnection(displayName: validatedDisplayName)
+            
+            guard let connection = self.connection else {
+                throw NearPeerError.sessionNotFound
+            }
+            
+            // イベントハンドラーを設定
+            connection.setEventHandlers(
+                connectionHandler: { [weak self] event in
+                    Task { await self?.handleConnectionEvent(event) }
+                },
+                dataHandler: { [weak self] event in
+                    Task { await self?.handleDataEvent(event) }
+                }
+            )
+            
+            // AdvertiserとBrowserを作成
+            self.advertiser = PeerAdvertiser(session: connection.session)
+            self.browser = PeerBrowser(session: connection.session, maxPeers: maxNumPeers)
+            
+            // サービスを開始
+            if let myDiscoveryInfo = myDiscoveryInfo {
+                try await advertiser?.start(serviceType: validatedServiceType, discoveryInfo: myDiscoveryInfo)
+            }
+            
+            if let targetDiscoveryInfo = targetDiscoveryInfo {
+                try await browser?.start(serviceType: validatedServiceType, discoveryInfo: targetDiscoveryInfo)
+            }
+            
+        } catch {
+            throw NearPeerError.startupFailed(error)
+        }
+    }
+    
+    public func stop() async {
+        await advertiser?.stop()
+        await browser?.stop()
+        connection?.disconnect()
+        
+        advertiser = nil
+        browser = nil
+        connection = nil
+    }
+    
+    public func resume() async throws {
+        try await advertiser?.resume()
+        try await browser?.resume()
+    }
+    
+    public func suspend() async {
+        await advertiser?.suspend()
+        await browser?.suspend()
+        connection?.disconnect()
+    }
+    
+    public func send(_ data: Data) async throws {
+        guard let connection = self.connection else {
+            throw NearPeerError.sessionNotFound
+        }
+        
+        let peers = connection.session.connectedPeers
+        
+        guard !peers.isEmpty else {
+            throw NearPeerError.peerNotConnected
+        }
+        
+        do {
+            try connection.session.send(data, toPeers: peers, with: .reliable)
+        } catch {
+            throw NearPeerError.sendingFailed(error)
+        }
+    }
+    
+    public func send<T: Codable>(_ object: T) async throws {
+        do {
+            let data = try JSONEncoder().encode(object)
+            try await send(data)
+        } catch is EncodingError {
+            throw NearPeerError.encodingFailed
+        }
+    }
+    
+    public var connectedPeers: [MCPeerID] {
+        get async {
+            return connection?.session.connectedPeers ?? []
+        }
+    }
+    
+    // MARK: - Event Handlers
+    
+    private func handleConnectionEvent(_ event: PeerConnectionEvent) {
+        connectionEventContinuation?.yield(event)
+    }
+    
+    private func handleDataEvent(_ event: DataReceivedEvent) {
+        dataEventContinuation?.yield(event)
+    }
+}
+
+// MARK: - Legacy NearPeer (Backward Compatibility)
+
+/// 既存のコードとの互換性を保つためのレガシークラス
+public class NearPeerLegacy: NearPeerLegacyProtocol {
+    private let maxNumPeers: Int
     private var connection: PeerConnection?
     private var advertiser: PeerAdvertiser?
     private var browser: PeerBrowser?
@@ -52,63 +320,24 @@ public class NearPeer: NearPeerProtocol {
     private var disconnectedHandler: ConnectionHandler?
     private var receivedHandler: DataReceiveHandler?
 
-    // ------------------------------------------------------------------------------------------
-    // MARK: - private
-    // ------------------------------------------------------------------------------------------
-
-    /// validate
-    /// - Parameter service: Must be 1–15 characters long,
-    ///                  Can contain only ASCII lowercase letters,
-    ///                  numbers, and hyphens, Must contain at least one ASCII letter,
-    ///                  Must not begin or end with a hyphen,
-    /// - Returns: validated service name
-    private func validateServiceType(_ serviceType: String) -> String {
-        guard serviceType.count > 0 else {
-            return "."
-        }
-
-        if serviceType.count > 15 {
-            // assertionFailure("serviceTypeは、15文字までです \(serviceType)")
-            // print("serviceTypeは、15文字までです \(serviceType)")
-            // return String(serviceType.prefix(15))
-        }
-
-        // Must be 1–15 characters long の他は未実装
-
-        return serviceType
-    }
-
-    /// 表示名
-    /// - Parameter displayName: The maximum allowable length is 63 bytes in UTF-8 encoding
-    /// - Returns: validated displayName
-    private func validateDisplayName(_ displayName: String) -> String {
-        if displayName.isEmpty {
-            return "no name"
-        }
-
-        if displayName.count > 63 {
-            // assertionFailure("serviceTypeは、63文字までです: \(displayName)")
-            // print("serviceTypeは、63文字までです: \(displayName)")
-            // return String(displayName.prefix(63))
-        }
-
-        return displayName
-    }
-
-    // ------------------------------------------------------------------------------------------
-    // MARK: - public
-    // ------------------------------------------------------------------------------------------
-
     public required init(maxPeers: Int) {
         maxNumPeers = maxPeers
     }
 
-    /// Start peer communication
-    /// - Parameters:
-    ///   - serviceType: サービスタイプ：InfoPlistに記述が必要
-    ///   - displayName: ローカルピアの表示名
-    ///   - discoveryInfo: discoveryInfoパラメータは、ブラウザが見ることができるように広告される文字列キー/値ペアの辞書です。
-    ///                    discoveryInfoのコンテンツはBonjour TXTレコード内でアドバタイズされるので、ディスカバリーのパフォーマンスを上げるために辞書を小さくしておく必要があります。
+    private func validateServiceType(_ serviceType: String) -> String {
+        guard serviceType.count > 0 else {
+            return "nearpeer"
+        }
+        return serviceType.count > 15 ? String(serviceType.prefix(15)) : serviceType
+    }
+
+    private func validateDisplayName(_ displayName: String) -> String {
+        if displayName.isEmpty {
+            return "no name"
+        }
+        return displayName.count > 63 ? String(displayName.prefix(63)) : displayName
+    }
+
     public func start(serviceType: String, displayName: String, myDiscoveryInfo: [NearPeerDiscoveryInfoKey: String]? = nil, targetDiscoveryInfo: [NearPeerDiscoveryInfoKey: String]? = nil) {
         let validatedServiceName = validateServiceType(serviceType)
         let validatedDisplayName = validateDisplayName(displayName)
@@ -117,44 +346,60 @@ public class NearPeer: NearPeerProtocol {
 
         guard let connection = connection else { return }
 
-        self.connection?.connectedHandler = connectingHandler
-        self.connection?.connectedHandler = connectedHandler
-        self.connection?.disconnectedHandler = disconnectedHandler
-        self.connection?.receivedHandler = receivedHandler
+        self.connection?.setLegacyHandlers(
+            connectingHandler: connectingHandler,
+            connectedHandler: connectedHandler,
+            disconnectedHandler: disconnectedHandler,
+            receivedHandler: receivedHandler
+        )
 
         advertiser = PeerAdvertiser(session: connection.session)
         browser = PeerBrowser(session: connection.session, maxPeers: maxNumPeers)
 
         if let myDiscoveryInfo = myDiscoveryInfo {
-            advertiser?.start(serviceType: validatedServiceName, discoveryInfo: myDiscoveryInfo)
+            Task {
+                try? await advertiser?.start(serviceType: validatedServiceName, discoveryInfo: myDiscoveryInfo)
+            }
         }
 
         if let targetDiscoveryInfo = targetDiscoveryInfo {
-            browser?.start(serviceType: validatedServiceName, discoveryInfo: targetDiscoveryInfo)
+            Task {
+                try? await browser?.start(serviceType: validatedServiceName, discoveryInfo: targetDiscoveryInfo)
+            }
         }
     }
 
     public func stop() {
-        advertiser?.stop()
-        browser?.stop()
+        Task {
+            await advertiser?.stop()
+            await browser?.stop()
+        }
         connection?.disconnect()
     }
 
     public func resume() {
-        advertiser?.resume()
-        browser?.resume()
+        Task {
+            try? await advertiser?.resume()
+            try? await browser?.resume()
+        }
     }
 
     public func suspend() {
-        advertiser?.suspend()
-        browser?.suspend()
-
+        Task {
+            await advertiser?.suspend()
+            await browser?.suspend()
+        }
         connection?.disconnect()
     }
 
     public func onConnecting(_ handler: ConnectionHandler?) {
         if let connection = self.connection {
-            connection.connectingHandler = handler
+            connection.setLegacyHandlers(
+                connectingHandler: handler,
+                connectedHandler: connectedHandler,
+                disconnectedHandler: disconnectedHandler,
+                receivedHandler: receivedHandler
+            )
         } else {
             connectingHandler = handler
         }
@@ -162,7 +407,12 @@ public class NearPeer: NearPeerProtocol {
 
     public func onConnected(_ handler: ConnectionHandler?) {
         if let connection = self.connection {
-            connection.connectedHandler = handler
+            connection.setLegacyHandlers(
+                connectingHandler: connectingHandler,
+                connectedHandler: handler,
+                disconnectedHandler: disconnectedHandler,
+                receivedHandler: receivedHandler
+            )
         } else {
             connectedHandler = handler
         }
@@ -170,7 +420,12 @@ public class NearPeer: NearPeerProtocol {
 
     public func onDisconnect(_ handler: ConnectionHandler?) {
         if let connection = self.connection {
-            connection.disconnectedHandler = handler
+            connection.setLegacyHandlers(
+                connectingHandler: connectingHandler,
+                connectedHandler: connectedHandler,
+                disconnectedHandler: handler,
+                receivedHandler: receivedHandler
+            )
         } else {
             disconnectedHandler = handler
         }
@@ -178,29 +433,31 @@ public class NearPeer: NearPeerProtocol {
 
     public func onReceived(_ handler: DataReceiveHandler?) {
         if let connection = self.connection {
-            connection.receivedHandler = handler
+            connection.setLegacyHandlers(
+                connectingHandler: connectingHandler,
+                connectedHandler: connectedHandler,
+                disconnectedHandler: disconnectedHandler,
+                receivedHandler: handler
+            )
         } else {
             receivedHandler = handler
         }
     }
 
-    // 全てのPeerに送っている。（個別に送れそうですね！！）
     public func send(_ data: Data) {
-        guard let connection = connection else {
-            return
-        }
-
+        guard let connection = connection else { return }
         let peers = connection.session.connectedPeers
-
-        guard !peers.isEmpty else {
-            return
-        }
+        guard !peers.isEmpty else { return }
 
         do {
-            // .reliableではおそらくtcp（相当）を使う。
             try connection.session.send(data, toPeers: peers, with: .reliable)
         } catch {
             print(error.localizedDescription)
         }
     }
 }
+
+// MARK: - Type Aliases for Backward Compatibility
+
+public typealias ConnectionHandler = (_ peerID: MCPeerID) -> Void
+public typealias DataReceiveHandler = (_ peerID: MCPeerID, _ data: Data?) -> Void
