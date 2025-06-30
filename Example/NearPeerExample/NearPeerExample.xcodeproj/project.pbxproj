@@ -3,26 +3,35 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		523ED216268727F800B9DEF6 /* BorderedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523ED215268727F800B9DEF6 /* BorderedText.swift */; };
-		523ED217268727F800B9DEF6 /* BorderedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523ED215268727F800B9DEF6 /* BorderedText.swift */; };
-		523ED2192687300B00B9DEF6 /* NearPeerWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523ED2182687300B00B9DEF6 /* NearPeerWorker.swift */; };
-		523ED21A2687300B00B9DEF6 /* NearPeerWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523ED2182687300B00B9DEF6 /* NearPeerWorker.swift */; };
-		523ED21C2687323A00B9DEF6 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523ED21B2687323A00B9DEF6 /* Log.swift */; };
-		523ED21D2687323A00B9DEF6 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523ED21B2687323A00B9DEF6 /* Log.swift */; };
-		5259218A27C2AA5500047407 /* BwNearPeer in Frameworks */ = {isa = PBXBuildFile; productRef = 5259218927C2AA5500047407 /* BwNearPeer */; };
 		528BEB2726872321008DB3C2 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528BEB2626872321008DB3C2 /* Tests_iOS.swift */; };
 		528BEB3226872321008DB3C2 /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528BEB3126872321008DB3C2 /* Tests_macOS.swift */; };
-		528BEB3426872321008DB3C2 /* NearPeerExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528BEB0B26872320008DB3C2 /* NearPeerExampleApp.swift */; };
-		528BEB3526872321008DB3C2 /* NearPeerExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528BEB0B26872320008DB3C2 /* NearPeerExampleApp.swift */; };
-		528BEB3626872321008DB3C2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528BEB0C26872320008DB3C2 /* ContentView.swift */; };
-		528BEB3726872321008DB3C2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528BEB0C26872320008DB3C2 /* ContentView.swift */; };
-		528BEB3826872321008DB3C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 528BEB0D26872320008DB3C2 /* Assets.xcassets */; };
-		528BEB3926872321008DB3C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 528BEB0D26872320008DB3C2 /* Assets.xcassets */; };
-		52A06B4D27C7F32600AD9385 /* BwLogger in Frameworks */ = {isa = PBXBuildFile; productRef = 52A06B4C27C7F32600AD9385 /* BwLogger */; };
+		7654F8562E12D53B0037F6AC /* BwNearPeer in Frameworks */ = {isa = PBXBuildFile; productRef = 7654F8552E12D53B0037F6AC /* BwNearPeer */; };
+		767F082F2E12D3DF008300B1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 767F08292E12D3DF008300B1 /* Assets.xcassets */; };
+		767F08302E12D3DF008300B1 /* ErrorMessageCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767F08242E12D3DF008300B1 /* ErrorMessageCard.swift */; };
+		767F08312E12D3DF008300B1 /* MessageReceiveCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767F08252E12D3DF008300B1 /* MessageReceiveCard.swift */; };
+		767F08322E12D3DF008300B1 /* MessageSendCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767F08262E12D3DF008300B1 /* MessageSendCard.swift */; };
+		767F08332E12D3DF008300B1 /* ConnectionStatusCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767F08232E12D3DF008300B1 /* ConnectionStatusCard.swift */; };
+		767F08352E12D3DF008300B1 /* ConnectionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767F081F2E12D3DF008300B1 /* ConnectionState.swift */; };
+		767F08362E12D3DF008300B1 /* NearPeerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767F081D2E12D3DF008300B1 /* NearPeerConfiguration.swift */; };
+		767F08372E12D3DF008300B1 /* NearPeerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767F08212E12D3DF008300B1 /* NearPeerService.swift */; };
+		767F08382E12D3DF008300B1 /* BorderedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767F082A2E12D3DF008300B1 /* BorderedText.swift */; };
+		767F08392E12D3DF008300B1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767F082B2E12D3DF008300B1 /* ContentView.swift */; };
+		767F083A2E12D3DF008300B1 /* NearPeerExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767F082D2E12D3DF008300B1 /* NearPeerExampleApp.swift */; };
+		767F083B2E12D3DF008300B1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 767F08292E12D3DF008300B1 /* Assets.xcassets */; };
+		767F083C2E12D3DF008300B1 /* ErrorMessageCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767F08242E12D3DF008300B1 /* ErrorMessageCard.swift */; };
+		767F083D2E12D3DF008300B1 /* MessageReceiveCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767F08252E12D3DF008300B1 /* MessageReceiveCard.swift */; };
+		767F083E2E12D3DF008300B1 /* MessageSendCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767F08262E12D3DF008300B1 /* MessageSendCard.swift */; };
+		767F083F2E12D3DF008300B1 /* ConnectionStatusCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767F08232E12D3DF008300B1 /* ConnectionStatusCard.swift */; };
+		767F08412E12D3DF008300B1 /* ConnectionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767F081F2E12D3DF008300B1 /* ConnectionState.swift */; };
+		767F08422E12D3DF008300B1 /* NearPeerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767F081D2E12D3DF008300B1 /* NearPeerConfiguration.swift */; };
+		767F08432E12D3DF008300B1 /* NearPeerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767F08212E12D3DF008300B1 /* NearPeerService.swift */; };
+		767F08442E12D3DF008300B1 /* BorderedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767F082A2E12D3DF008300B1 /* BorderedText.swift */; };
+		767F08452E12D3DF008300B1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767F082B2E12D3DF008300B1 /* ContentView.swift */; };
+		767F08462E12D3DF008300B1 /* NearPeerExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767F082D2E12D3DF008300B1 /* NearPeerExampleApp.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,12 +52,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		523ED215268727F800B9DEF6 /* BorderedText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderedText.swift; sourceTree = "<group>"; };
-		523ED2182687300B00B9DEF6 /* NearPeerWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearPeerWorker.swift; sourceTree = "<group>"; };
-		523ED21B2687323A00B9DEF6 /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
-		528BEB0B26872320008DB3C2 /* NearPeerExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearPeerExampleApp.swift; sourceTree = "<group>"; };
-		528BEB0C26872320008DB3C2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		528BEB0D26872320008DB3C2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		528BEB1226872321008DB3C2 /* NearPeerExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NearPeerExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		528BEB1526872321008DB3C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		528BEB1A26872321008DB3C2 /* NearPeerExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NearPeerExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -60,6 +63,17 @@
 		528BEB2D26872321008DB3C2 /* Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		528BEB3126872321008DB3C2 /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
 		528BEB3326872321008DB3C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		767F081D2E12D3DF008300B1 /* NearPeerConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearPeerConfiguration.swift; sourceTree = "<group>"; };
+		767F081F2E12D3DF008300B1 /* ConnectionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionState.swift; sourceTree = "<group>"; };
+		767F08212E12D3DF008300B1 /* NearPeerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearPeerService.swift; sourceTree = "<group>"; };
+		767F08232E12D3DF008300B1 /* ConnectionStatusCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionStatusCard.swift; sourceTree = "<group>"; };
+		767F08242E12D3DF008300B1 /* ErrorMessageCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessageCard.swift; sourceTree = "<group>"; };
+		767F08252E12D3DF008300B1 /* MessageReceiveCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageReceiveCard.swift; sourceTree = "<group>"; };
+		767F08262E12D3DF008300B1 /* MessageSendCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSendCard.swift; sourceTree = "<group>"; };
+		767F08292E12D3DF008300B1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		767F082A2E12D3DF008300B1 /* BorderedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderedText.swift; sourceTree = "<group>"; };
+		767F082B2E12D3DF008300B1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		767F082D2E12D3DF008300B1 /* NearPeerExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearPeerExampleApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,8 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5259218A27C2AA5500047407 /* BwNearPeer in Frameworks */,
-				52A06B4D27C7F32600AD9385 /* BwLogger in Frameworks */,
+				7654F8562E12D53B0037F6AC /* BwNearPeer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,26 +112,13 @@
 		528BEB0526872320008DB3C2 = {
 			isa = PBXGroup;
 			children = (
-				528BEB0A26872320008DB3C2 /* Shared */,
+				767F082E2E12D3DF008300B1 /* Shared */,
 				528BEB1426872321008DB3C2 /* iOS */,
 				528BEB1B26872321008DB3C2 /* macOS */,
 				528BEB2526872321008DB3C2 /* Tests iOS */,
 				528BEB3026872321008DB3C2 /* Tests macOS */,
 				528BEB1326872321008DB3C2 /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		528BEB0A26872320008DB3C2 /* Shared */ = {
-			isa = PBXGroup;
-			children = (
-				528BEB0B26872320008DB3C2 /* NearPeerExampleApp.swift */,
-				528BEB0C26872320008DB3C2 /* ContentView.swift */,
-				523ED2182687300B00B9DEF6 /* NearPeerWorker.swift */,
-				523ED215268727F800B9DEF6 /* BorderedText.swift */,
-				523ED21B2687323A00B9DEF6 /* Log.swift */,
-				528BEB0D26872320008DB3C2 /* Assets.xcassets */,
-			);
-			path = Shared;
 			sourceTree = "<group>";
 		};
 		528BEB1326872321008DB3C2 /* Products */ = {
@@ -167,6 +167,64 @@
 			path = "Tests macOS";
 			sourceTree = "<group>";
 		};
+		767F081E2E12D3DF008300B1 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				767F081D2E12D3DF008300B1 /* NearPeerConfiguration.swift */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		767F08202E12D3DF008300B1 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				767F081F2E12D3DF008300B1 /* ConnectionState.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		767F08222E12D3DF008300B1 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				767F08212E12D3DF008300B1 /* NearPeerService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		767F08272E12D3DF008300B1 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				767F08232E12D3DF008300B1 /* ConnectionStatusCard.swift */,
+				767F08242E12D3DF008300B1 /* ErrorMessageCard.swift */,
+				767F08252E12D3DF008300B1 /* MessageReceiveCard.swift */,
+				767F08262E12D3DF008300B1 /* MessageSendCard.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		767F08282E12D3DF008300B1 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				767F08272E12D3DF008300B1 /* Components */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		767F082E2E12D3DF008300B1 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				767F081E2E12D3DF008300B1 /* Configuration */,
+				767F08202E12D3DF008300B1 /* Models */,
+				767F08222E12D3DF008300B1 /* Services */,
+				767F08282E12D3DF008300B1 /* Views */,
+				767F08292E12D3DF008300B1 /* Assets.xcassets */,
+				767F082A2E12D3DF008300B1 /* BorderedText.swift */,
+				767F082B2E12D3DF008300B1 /* ContentView.swift */,
+				767F082D2E12D3DF008300B1 /* NearPeerExampleApp.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -185,8 +243,7 @@
 			);
 			name = "NearPeerExample (iOS)";
 			packageProductDependencies = (
-				5259218927C2AA5500047407 /* BwNearPeer */,
-				52A06B4C27C7F32600AD9385 /* BwLogger */,
+				7654F8552E12D53B0037F6AC /* BwNearPeer */,
 			);
 			productName = "NearPeerExample (iOS)";
 			productReference = 528BEB1226872321008DB3C2 /* NearPeerExample.app */;
@@ -280,8 +337,7 @@
 			);
 			mainGroup = 528BEB0526872320008DB3C2;
 			packageReferences = (
-				5259218827C2AA5500047407 /* XCRemoteSwiftPackageReference "BwNearPeer" */,
-				52A06B4B27C7F32600AD9385 /* XCRemoteSwiftPackageReference "BwLogger" */,
+				7654F8542E12D53B0037F6AC /* XCLocalSwiftPackageReference "../../../BwNearPeer" */,
 			);
 			productRefGroup = 528BEB1326872321008DB3C2 /* Products */;
 			projectDirPath = "";
@@ -300,7 +356,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				528BEB3826872321008DB3C2 /* Assets.xcassets in Resources */,
+				767F082F2E12D3DF008300B1 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,7 +364,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				528BEB3926872321008DB3C2 /* Assets.xcassets in Resources */,
+				767F083B2E12D3DF008300B1 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,11 +410,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				528BEB3626872321008DB3C2 /* ContentView.swift in Sources */,
-				528BEB3426872321008DB3C2 /* NearPeerExampleApp.swift in Sources */,
-				523ED21C2687323A00B9DEF6 /* Log.swift in Sources */,
-				523ED216268727F800B9DEF6 /* BorderedText.swift in Sources */,
-				523ED2192687300B00B9DEF6 /* NearPeerWorker.swift in Sources */,
+				767F08302E12D3DF008300B1 /* ErrorMessageCard.swift in Sources */,
+				767F08312E12D3DF008300B1 /* MessageReceiveCard.swift in Sources */,
+				767F08322E12D3DF008300B1 /* MessageSendCard.swift in Sources */,
+				767F08332E12D3DF008300B1 /* ConnectionStatusCard.swift in Sources */,
+				767F08352E12D3DF008300B1 /* ConnectionState.swift in Sources */,
+				767F08362E12D3DF008300B1 /* NearPeerConfiguration.swift in Sources */,
+				767F08372E12D3DF008300B1 /* NearPeerService.swift in Sources */,
+				767F08382E12D3DF008300B1 /* BorderedText.swift in Sources */,
+				767F08392E12D3DF008300B1 /* ContentView.swift in Sources */,
+				767F083A2E12D3DF008300B1 /* NearPeerExampleApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -366,11 +427,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				528BEB3726872321008DB3C2 /* ContentView.swift in Sources */,
-				528BEB3526872321008DB3C2 /* NearPeerExampleApp.swift in Sources */,
-				523ED21D2687323A00B9DEF6 /* Log.swift in Sources */,
-				523ED217268727F800B9DEF6 /* BorderedText.swift in Sources */,
-				523ED21A2687300B00B9DEF6 /* NearPeerWorker.swift in Sources */,
+				767F083C2E12D3DF008300B1 /* ErrorMessageCard.swift in Sources */,
+				767F083D2E12D3DF008300B1 /* MessageReceiveCard.swift in Sources */,
+				767F083E2E12D3DF008300B1 /* MessageSendCard.swift in Sources */,
+				767F083F2E12D3DF008300B1 /* ConnectionStatusCard.swift in Sources */,
+				767F08412E12D3DF008300B1 /* ConnectionState.swift in Sources */,
+				767F08422E12D3DF008300B1 /* NearPeerConfiguration.swift in Sources */,
+				767F08432E12D3DF008300B1 /* NearPeerService.swift in Sources */,
+				767F08442E12D3DF008300B1 /* BorderedText.swift in Sources */,
+				767F08452E12D3DF008300B1 /* ContentView.swift in Sources */,
+				767F08462E12D3DF008300B1 /* NearPeerExampleApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -526,7 +592,7 @@
 				DEVELOPMENT_TEAM = D6A5KP29BP;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -548,7 +614,7 @@
 				DEVELOPMENT_TEAM = D6A5KP29BP;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -578,7 +644,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
 				PRODUCT_BUNDLE_IDENTIFIER = "jp.beowulf-tech.NearPeerExample";
 				PRODUCT_NAME = NearPeerExample;
 				SDKROOT = macosx;
@@ -602,7 +668,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
 				PRODUCT_BUNDLE_IDENTIFIER = "jp.beowulf-tech.NearPeerExample";
 				PRODUCT_NAME = NearPeerExample;
 				SDKROOT = macosx;
@@ -613,7 +679,6 @@
 		528BEB4326872321008DB3C2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = D6A5KP29BP;
 				INFOPLIST_FILE = "Tests iOS/Info.plist";
@@ -635,7 +700,6 @@
 		528BEB4426872321008DB3C2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = D6A5KP29BP;
 				INFOPLIST_FILE = "Tests iOS/Info.plist";
@@ -658,7 +722,6 @@
 		528BEB4626872321008DB3C2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = D6A5KP29BP;
@@ -680,7 +743,6 @@
 		528BEB4726872321008DB3C2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = D6A5KP29BP;
@@ -749,35 +811,17 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		5259218827C2AA5500047407 /* XCRemoteSwiftPackageReference "BwNearPeer" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:BlueEventHorizon/BwNearPeer.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
+/* Begin XCLocalSwiftPackageReference section */
+		7654F8542E12D53B0037F6AC /* XCLocalSwiftPackageReference "../../../BwNearPeer" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../../BwNearPeer;
 		};
-		52A06B4B27C7F32600AD9385 /* XCRemoteSwiftPackageReference "BwLogger" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/BlueEventHorizon/BwLogger";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
+/* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		5259218927C2AA5500047407 /* BwNearPeer */ = {
+		7654F8552E12D53B0037F6AC /* BwNearPeer */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5259218827C2AA5500047407 /* XCRemoteSwiftPackageReference "BwNearPeer" */;
 			productName = BwNearPeer;
-		};
-		52A06B4C27C7F32600AD9385 /* BwLogger */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 52A06B4B27C7F32600AD9385 /* XCRemoteSwiftPackageReference "BwLogger" */;
-			productName = BwLogger;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -9,7 +9,7 @@
 import MultipeerConnectivity
 import Foundation
 
-/// iOS17.6対応のPeerBrowser
+/// PeerBrowser
 class PeerBrowser: NSObject, MCNearbyServiceBrowserDelegate {
     private let session: MCSession
     private let maxNumPeers: Int
@@ -18,18 +18,18 @@ class PeerBrowser: NSObject, MCNearbyServiceBrowserDelegate {
     private var isBrowsing: Bool = false
     private var serviceType: String?
     
-    // iOS17.6対応: より安全で効率的なDispatchQueue
+    // より安全で効率的なDispatchQueue
     private let operationQueue = DispatchQueue(
         label: "com.beowulf-tech.bwtools.BwNearPeer.browser",
         qos: .userInitiated,
         attributes: .concurrent
     )
     
-    // iOS17.6対応: Continuation for async operations
+    // Continuation for async operations
     private var startContinuation: CheckedContinuation<Void, Error>?
     private var stopContinuation: CheckedContinuation<Void, Never>?
     
-    // iOS17.6対応: 発見されたピアの履歴
+    // 発見されたピアの履歴
     private var discoveredPeers: Set<MCPeerID> = []
     private let peersQueue = DispatchQueue(label: "com.beowulf-tech.bwtools.BwNearPeer.peers", attributes: .concurrent)
 
@@ -43,24 +43,34 @@ class PeerBrowser: NSObject, MCNearbyServiceBrowserDelegate {
     func start(serviceType: String, discoveryInfo: [NearPeerDiscoveryInfoKey: String]?) async throws {
         return try await withCheckedThrowingContinuation { continuation in
             operationQueue.async { [weak self] in
-                guard let self = self else {
+                guard let self else {
+                    logger.debug("PeerBrowser: selfがnil")
                     continuation.resume(throwing: NearPeerError.sessionNotFound)
                     return
                 }
                 
                 guard !self.isBrowsing else {
+                    logger.debug("PeerBrowser: すでにブラウジング中")
                     continuation.resume(returning: ())
                     return
                 }
 
+                logger.debug("PeerBrowser開始: serviceType=\(serviceType)")
+                logger.debug("discoveryInfo: \(discoveryInfo ?? [:])")
+                
                 self.startContinuation = continuation
                 self.serviceType = serviceType
+                
+                logger.debug("MCNearbyServiceBrowser作成中...")
                 self.browser = MCNearbyServiceBrowser(peer: self.session.myPeerID, serviceType: serviceType)
                 self.browser?.delegate = self
+                
+                logger.debug("startBrowsingForPeers()呼び出し...")
                 self.browser?.startBrowsingForPeers()
                 self.discoveryInfo = discoveryInfo
                 self.isBrowsing = true
 
+                logger.debug("PeerBrowser開始完了")
                 // 即座に成功を返す（ブラウジング開始は通常失敗しない）
                 continuation.resume(returning: ())
                 self.startContinuation = nil
@@ -72,7 +82,7 @@ class PeerBrowser: NSObject, MCNearbyServiceBrowserDelegate {
     func stop() async {
         await withCheckedContinuation { continuation in
             operationQueue.async { [weak self] in
-                guard let self = self else {
+                guard let self else {
                     continuation.resume()
                     return
                 }
@@ -199,24 +209,34 @@ class PeerBrowser: NSObject, MCNearbyServiceBrowserDelegate {
         operationQueue.async { [weak self] in
             guard let self = self else { return }
             
-            // iOS17.6対応: より厳密なピア発見処理
+            logger.debug("ピア発見: \(peerID.displayName)")
+            logger.debug("受信discoveryInfo: \(info ?? [:])")
+            
+            // より厳密なピア発見処理
             guard self.isMatchDiscoveryInfo(info) else {
+                logger.debug("discoveryInfo不一致: 接続をスキップ")
                 return
             }
+            logger.debug("discoveryInfo一致")
             
             // 最大接続数チェック
             guard self.session.connectedPeers.count < self.maxNumPeers else {
+                logger.debug("最大接続数に達している: \(self.session.connectedPeers.count)/\(self.maxNumPeers)")
                 return
             }
+            logger.debug("接続数チェック OK: \(self.session.connectedPeers.count)/\(self.maxNumPeers)")
             
             // 既に接続済みのピアでないかチェック
             guard !self.session.connectedPeers.contains(peerID) else {
+                logger.debug("既に接続済み: \(peerID.displayName)")
                 return
             }
+            logger.debug("新規ピア")
             
             self.addDiscoveredPeer(peerID)
             
-            // iOS17.6では、より安全なタイムアウト設定
+            logger.debug("招待送信中: \(peerID.displayName)")
+            // より安全なタイムアウト設定
             browser.invitePeer(peerID, to: self.session, withContext: nil, timeout: 10)
         }
     }
@@ -242,40 +262,4 @@ class PeerBrowser: NSObject, MCNearbyServiceBrowserDelegate {
     }
 }
 
-// MARK: - iOS17.6 Enhanced Features
 
-@available(iOS 17.0, macOS 14.0, *)
-extension PeerBrowser {
-    /// iOS17.6で利用可能な拡張機能
-    
-    /// ブラウジングの状態情報
-    var browsingStatus: [String: Any] {
-        return [
-            "isBrowsing": isBrowsing,
-            "serviceType": serviceType ?? "未設定",
-            "maxPeers": maxNumPeers,
-            "discoveryInfo": discoveryInfo?.mapValues { $0 } ?? [:],
-            "timestamp": Date().timeIntervalSince1970
-        ]
-    }
-    
-    /// ブラウジング統計情報
-    var statistics: [String: Any] {
-        return peersQueue.sync {
-            return [
-                "peerID": session.myPeerID.displayName,
-                "isBrowsing": isBrowsing,
-                "discoveredPeersCount": discoveredPeers.count,
-                "connectedPeersCount": session.connectedPeers.count,
-                "maxPeers": maxNumPeers
-            ]
-        }
-    }
-    
-    /// 発見されたピアのリスト
-    var discoveredPeersList: [MCPeerID] {
-        return peersQueue.sync {
-            return Array(discoveredPeers)
-        }
-    }
-}

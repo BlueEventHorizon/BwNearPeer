@@ -9,21 +9,21 @@
 import MultipeerConnectivity
 import Foundation
 
-/// iOS17.6対応のPeerAdvertiser
+/// PeerAdvertiser
 class PeerAdvertiser: NSObject, MCNearbyServiceAdvertiserDelegate {
     private let session: MCSession
     private var isAdvertising: Bool = false
     private var serviceType: String?
     private var infoArray: [String: String]?
     
-    // iOS17.6対応: より安全で効率的なDispatchQueue
+    // より安全で効率的なDispatchQueue
     private let operationQueue = DispatchQueue(
         label: "com.beowulf-tech.bwtools.BwNearPeer.advertiser",
         qos: .userInitiated,
         attributes: .concurrent
     )
     
-    // iOS17.6対応: Continuation for async operations
+    // Continuation for async operations
     private var startContinuation: CheckedContinuation<Void, Error>?
     private var stopContinuation: CheckedContinuation<Void, Never>?
 
@@ -39,33 +39,50 @@ class PeerAdvertiser: NSObject, MCNearbyServiceAdvertiserDelegate {
         return try await withCheckedThrowingContinuation { continuation in
             operationQueue.async { [weak self] in
                 guard let self = self else {
+                    logger.debug("PeerAdvertiser: selfがnil")
                     continuation.resume(throwing: NearPeerError.sessionNotFound)
                     return
                 }
                 
                 guard !self.isAdvertising else {
+                    logger.debug("PeerAdvertiser: すでにアドバタイズ中")
                     continuation.resume(returning: ())
                     return
                 }
 
+                logger.debug("PeerAdvertiser開始: serviceType=\(serviceType)")
+                
                 self.startContinuation = continuation
                 self.isAdvertising = true
                 self.serviceType = serviceType
 
                 if let infos = discoveryInfo {
+                    logger.debug("discoveryInfo設定: \(infos)")
                     self.infoArray = [String: String]()
                     infos.forEach { key, value in
                         self.infoArray?[key.rawValue] = value
                     }
                 }
 
+                logger.debug("MCNearbyServiceAdvertiser作成中...")
                 self.advertiser = MCNearbyServiceAdvertiser(
                     peer: self.session.myPeerID,
                     discoveryInfo: self.infoArray,
                     serviceType: serviceType
                 )
                 self.advertiser?.delegate = self
+                
+                logger.debug("startAdvertisingPeer()呼び出し...")
                 self.advertiser?.startAdvertisingPeer()
+                
+                // タイムアウトを設定
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) { [weak self] in
+                    if let continuation = self?.startContinuation {
+                        logger.debug("PeerAdvertiser開始完了（タイムアウト）")
+                        continuation.resume(returning: ())
+                        self?.startContinuation = nil
+                    }
+                }
             }
         }
     }
@@ -155,7 +172,7 @@ class PeerAdvertiser: NSObject, MCNearbyServiceAdvertiserDelegate {
 
     /// セッションへの招待を受ける
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
-        // iOS17.6対応: より安全な招待処理
+        // より安全な招待処理
         operationQueue.async { [weak self] in
             guard let self = self else {
                 invitationHandler(false, nil)
@@ -172,7 +189,7 @@ class PeerAdvertiser: NSObject, MCNearbyServiceAdvertiserDelegate {
         }
     }
     
-    /// アドバタイズ開始に成功した場合の処理（iOS17.6では呼ばれないが、互換性のため保持）
+    /// アドバタイズでエラーが発生した場合の処理
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: Error) {
         operationQueue.async { [weak self] in
             guard let self = self else { return }
@@ -188,28 +205,4 @@ class PeerAdvertiser: NSObject, MCNearbyServiceAdvertiserDelegate {
     }
 }
 
-// MARK: - iOS17.6 Enhanced Features
 
-@available(iOS 17.0, macOS 14.0, *)
-extension PeerAdvertiser {
-    /// iOS17.6で利用可能な拡張機能
-    
-    /// アドバタイズの状態情報
-    var advertisingStatus: [String: Any] {
-        return [
-            "isAdvertising": isAdvertising,
-            "serviceType": serviceType ?? "未設定",
-            "discoveryInfo": infoArray ?? [:],
-            "timestamp": Date().timeIntervalSince1970
-        ]
-    }
-    
-    /// アドバタイズ統計情報
-    var statistics: [String: Any] {
-        return [
-            "peerID": session.myPeerID.displayName,
-            "isAdvertising": isAdvertising,
-            "connectedPeersCount": session.connectedPeers.count
-        ]
-    }
-}
