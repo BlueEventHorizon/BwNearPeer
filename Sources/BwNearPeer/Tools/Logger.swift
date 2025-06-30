@@ -15,7 +15,7 @@ public extension Logger {
     /// - Returns: 設定済みのLoggerインスタンス
     /// - Note: subsystemにはアプリのバンドルIDが自動的に使用される
     static func `default`(category: String) -> Self {
-        let subsystem = "bw_near_peer"
+        let subsystem = "beowulf-tech.com"
         return os.Logger(subsystem: subsystem, category: category)
     }
 
