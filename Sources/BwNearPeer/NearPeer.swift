@@ -80,9 +80,9 @@ public struct DataReceivedEvent {
     }
 }
 
-// MARK: - Modern Protocol
+// MARK: - Protocol
 
-/// モダンなSwift Concurrency対応のNearPeerプロトコル
+/// Swift Concurrency対応のNearPeerプロトコル
 public protocol NearPeerProtocol: Actor {
     init(maxPeers: Int)
     
@@ -105,29 +105,11 @@ public protocol NearPeerProtocol: Actor {
     var connectedPeers: [MCPeerID] { get async }
 }
 
-// MARK: - Legacy Protocol (Backward Compatibility)
 
-/// 既存のコードとの互換性を保つためのレガシープロトコル
-public protocol NearPeerLegacyProtocol {
-    init(maxPeers: Int)
-
-    func start(serviceType: String, displayName: String, myDiscoveryInfo: [NearPeerDiscoveryInfoKey: String]?, targetDiscoveryInfo: [NearPeerDiscoveryInfoKey: String]?)
-
-    func stop()
-    func resume()
-    func suspend()
-
-    func onConnecting(_ handler: ConnectionHandler?)
-    func onConnected(_ handler: ConnectionHandler?)
-    func onDisconnect(_ handler: ConnectionHandler?)
-    func onReceived(_ handler: DataReceiveHandler?)
-
-    func send(_ data: Data)
-}
 
 // MARK: - NearPeer Actor
 
-/// iOS17.6対応のNearPeerクラス（Actor対応）
+/// NearPeerクラス（Actor対応）
 @available(iOS 17.0, macOS 14.0, *)
 public actor NearPeer: NearPeerProtocol {
     private let maxNumPeers: Int
@@ -199,21 +181,32 @@ public actor NearPeer: NearPeerProtocol {
         myDiscoveryInfo: [NearPeerDiscoveryInfoKey: String]? = nil,
         targetDiscoveryInfo: [NearPeerDiscoveryInfoKey: String]? = nil
     ) async throws {
+        logger.debug("🟢 NearPeer.start() 開始")
+        logger.debug("入力 - serviceType: \(serviceType), displayName: \(displayName)")
+        
         let validatedServiceType = try validateServiceType(serviceType)
         let validatedDisplayName = try validateDisplayName(displayName)
         
+        logger.debug("バリデーション完了 - serviceType: \(validatedServiceType), displayName: \(validatedDisplayName)")
+        
         // 既存の接続を停止
+        logger.debug("既存接続の停止中...")
         await stop()
+        logger.debug("🟢 既存接続停止完了")
         
         do {
             // 新しい接続を作成
+            logger.debug("新しい接続を作成中...")
             self.connection = PeerConnection(displayName: validatedDisplayName)
             
             guard let connection = self.connection else {
+                logger.debug("接続の作成に失敗")
                 throw NearPeerError.sessionNotFound
             }
+            logger.debug("🟢 接続作成完了")
             
             // イベントハンドラーを設定
+            logger.debug("イベントハンドラーを設定中...")
             connection.setEventHandlers(
                 connectionHandler: { [weak self] event in
                     Task { await self?.handleConnectionEvent(event) }
@@ -222,21 +215,35 @@ public actor NearPeer: NearPeerProtocol {
                     Task { await self?.handleDataEvent(event) }
                 }
             )
+            logger.debug("🟢 イベントハンドラー設定完了")
             
             // AdvertiserとBrowserを作成
+            logger.debug("AdvertiserとBrowserを作成中...")
             self.advertiser = PeerAdvertiser(session: connection.session)
             self.browser = PeerBrowser(session: connection.session, maxPeers: maxNumPeers)
+            logger.debug("AdvertiserとBrowser作成完了")
             
             // サービスを開始
             if let myDiscoveryInfo = myDiscoveryInfo {
+                logger.debug("Advertiser開始中... (discoveryInfo: \(myDiscoveryInfo))")
                 try await advertiser?.start(serviceType: validatedServiceType, discoveryInfo: myDiscoveryInfo)
+                logger.debug("🟢 Advertiser開始完了")
+            } else {
+                logger.debug("Advertiser開始をスキップ（discoveryInfoなし）")
             }
             
             if let targetDiscoveryInfo = targetDiscoveryInfo {
+                logger.debug("Browser開始中... (targetDiscoveryInfo: \(targetDiscoveryInfo))")
                 try await browser?.start(serviceType: validatedServiceType, discoveryInfo: targetDiscoveryInfo)
+                logger.debug("🟢 Browser開始完了")
+            } else {
+                logger.debug("Browser開始をスキップ（targetDiscoveryInfoなし）")
             }
             
+            logger.debug("🟢 NearPeer.start() 完了")
+            
         } catch {
+            logger.debug("NearPeer.start()でエラー: \(error)")
             throw NearPeerError.startupFailed(error)
         }
     }
@@ -306,158 +313,4 @@ public actor NearPeer: NearPeerProtocol {
     }
 }
 
-// MARK: - Legacy NearPeer (Backward Compatibility)
 
-/// 既存のコードとの互換性を保つためのレガシークラス
-public class NearPeerLegacy: NearPeerLegacyProtocol {
-    private let maxNumPeers: Int
-    private var connection: PeerConnection?
-    private var advertiser: PeerAdvertiser?
-    private var browser: PeerBrowser?
-
-    private var connectingHandler: ConnectionHandler?
-    private var connectedHandler: ConnectionHandler?
-    private var disconnectedHandler: ConnectionHandler?
-    private var receivedHandler: DataReceiveHandler?
-
-    public required init(maxPeers: Int) {
-        maxNumPeers = maxPeers
-    }
-
-    private func validateServiceType(_ serviceType: String) -> String {
-        guard serviceType.count > 0 else {
-            return "nearpeer"
-        }
-        return serviceType.count > 15 ? String(serviceType.prefix(15)) : serviceType
-    }
-
-    private func validateDisplayName(_ displayName: String) -> String {
-        if displayName.isEmpty {
-            return "no name"
-        }
-        return displayName.count > 63 ? String(displayName.prefix(63)) : displayName
-    }
-
-    public func start(serviceType: String, displayName: String, myDiscoveryInfo: [NearPeerDiscoveryInfoKey: String]? = nil, targetDiscoveryInfo: [NearPeerDiscoveryInfoKey: String]? = nil) {
-        let validatedServiceName = validateServiceType(serviceType)
-        let validatedDisplayName = validateDisplayName(displayName)
-
-        self.connection = PeerConnection(displayName: validatedDisplayName)
-
-        guard let connection = connection else { return }
-
-        self.connection?.setLegacyHandlers(
-            connectingHandler: connectingHandler,
-            connectedHandler: connectedHandler,
-            disconnectedHandler: disconnectedHandler,
-            receivedHandler: receivedHandler
-        )
-
-        advertiser = PeerAdvertiser(session: connection.session)
-        browser = PeerBrowser(session: connection.session, maxPeers: maxNumPeers)
-
-        if let myDiscoveryInfo = myDiscoveryInfo {
-            Task {
-                try? await advertiser?.start(serviceType: validatedServiceName, discoveryInfo: myDiscoveryInfo)
-            }
-        }
-
-        if let targetDiscoveryInfo = targetDiscoveryInfo {
-            Task {
-                try? await browser?.start(serviceType: validatedServiceName, discoveryInfo: targetDiscoveryInfo)
-            }
-        }
-    }
-
-    public func stop() {
-        Task {
-            await advertiser?.stop()
-            await browser?.stop()
-        }
-        connection?.disconnect()
-    }
-
-    public func resume() {
-        Task {
-            try? await advertiser?.resume()
-            try? await browser?.resume()
-        }
-    }
-
-    public func suspend() {
-        Task {
-            await advertiser?.suspend()
-            await browser?.suspend()
-        }
-        connection?.disconnect()
-    }
-
-    public func onConnecting(_ handler: ConnectionHandler?) {
-        if let connection = self.connection {
-            connection.setLegacyHandlers(
-                connectingHandler: handler,
-                connectedHandler: connectedHandler,
-                disconnectedHandler: disconnectedHandler,
-                receivedHandler: receivedHandler
-            )
-        } else {
-            connectingHandler = handler
-        }
-    }
-
-    public func onConnected(_ handler: ConnectionHandler?) {
-        if let connection = self.connection {
-            connection.setLegacyHandlers(
-                connectingHandler: connectingHandler,
-                connectedHandler: handler,
-                disconnectedHandler: disconnectedHandler,
-                receivedHandler: receivedHandler
-            )
-        } else {
-            connectedHandler = handler
-        }
-    }
-
-    public func onDisconnect(_ handler: ConnectionHandler?) {
-        if let connection = self.connection {
-            connection.setLegacyHandlers(
-                connectingHandler: connectingHandler,
-                connectedHandler: connectedHandler,
-                disconnectedHandler: handler,
-                receivedHandler: receivedHandler
-            )
-        } else {
-            disconnectedHandler = handler
-        }
-    }
-
-    public func onReceived(_ handler: DataReceiveHandler?) {
-        if let connection = self.connection {
-            connection.setLegacyHandlers(
-                connectingHandler: connectingHandler,
-                connectedHandler: connectedHandler,
-                disconnectedHandler: disconnectedHandler,
-                receivedHandler: handler
-            )
-        } else {
-            receivedHandler = handler
-        }
-    }
-
-    public func send(_ data: Data) {
-        guard let connection = connection else { return }
-        let peers = connection.session.connectedPeers
-        guard !peers.isEmpty else { return }
-
-        do {
-            try connection.session.send(data, toPeers: peers, with: .reliable)
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-}
-
-// MARK: - Type Aliases for Backward Compatibility
-
-public typealias ConnectionHandler = (_ peerID: MCPeerID) -> Void
-public typealias DataReceiveHandler = (_ peerID: MCPeerID, _ data: Data?) -> Void
